@@ -1,0 +1,37 @@
+Denotation:
+  "**" - Should do soon
+  "??" - Should do maybe
+  "++" - Should do later
+  "==" - Doing now
+
+** Add support for Unicode
+** Add type BIGNUM (for storing numbers more than 2^64 -1)
+** Add handling for UTF-8 BOM
+** Add handling for most of the possible espace sequences
+** Add handling for hexadecimal escape sequences
+** Add caching to functions:
+	If function is not using any global variables or another functions =>
+	it will give the same results every time you call it =>
+	you can make hashtable for each function to save results
+	depending on arguments
+** Implement doc strings
+** Add "not enough memory" errors handling
+
+** Add support for hexadecimal and binary numbers
+** Write benchmarks for the parser
+** Write tests for the parser
+** Write more tests for parser
+** Write more tests for lexer
+** Add handling for '\\' characters
+** Remove usages of the asprintf function
+** Write tests for the compiler
+** Write benchmarks for the compiler
+
+== Refactoring:
+  - Replace "void" in functions that return nothing with "NoRet"
+  - Replace all default casts with "CAST()" macros
+  - Replace all "ifdef" and "ifndef" with "if defined" and "if !defined"
+  - Add the suffix "gsh_" to all GSh specific things
+  - Fix that the in some files,
+    there are no space between date ending
+    and comment end sign in the top comment

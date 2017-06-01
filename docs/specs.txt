@@ -1,0 +1,167 @@
+################
+### COMMENTS ###
+################
+
+# This is the single-line comment
+
+#{
+This is the multi-line comment
+}#
+
+#####################
+### DOCUMENTATION ###
+#####################
+
+###
+### Single-line documentation
+###
+
+? something does nothing
+
+###
+### Multi-line documentation
+###
+
+?{
+something does nothing
+}?
+
+###########################
+### Variable definition ###
+###########################
+
+scope {
+    var a = 3   # "a" contains 3
+    var b       # "b" contains Nothing
+}
+
+##############
+### Scopes ###
+##############
+
+var a = 3
+scope {
+    var a = 54
+    print(a)   # Will give you "54"
+}
+
+####################
+### Enumerations ###
+####################
+
+scope {
+    enum Color {
+	RED = 0xFF0000
+	GREEN = 0x00FF00
+	BLUE = 0x0000FF
+    }
+}
+
+##################
+### Data types ###
+##################
+
+###
+### Integer Number
+###
+
+scope {
+    var a = 3
+}
+
+###
+### Double-precision Number
+###
+
+scope {
+    var a = 3.4
+}
+
+###
+### Big Number
+###
+
+scope {
+    var a = 5E267
+}
+
+###
+### Boolean
+###
+
+scope {
+    var a = true
+    var b = false
+}
+
+###
+### String
+###
+
+scope {
+    var a = "something"
+}
+
+###
+### List
+###
+
+scope {
+    var a = [3, 4, "qwe", 3.2, [3, 5]]
+    var b = [3..6]                     # [3, 4, 5, 6]
+    var c = [0..2..10]                 # [2, 4, 6, 8, 10]
+    var d = [x # (x > 4) && (x < 8)]   # [5, 6, 7]
+}
+
+###
+### Dictionary
+###
+
+scope {
+    var a = {"something": 3, 5: "qwe", 7.4: 45}
+    print(a["something"])  # Will give you "3"
+    print(a[5])            # Will give you "qwe"
+    print(a[7.4])          # Will give you "45"
+    print(a[42])           # Will give you "Nothing"
+}
+
+#################
+### Operators ###
+#################
+
+###
+### '@' operator
+###
+### The '@' operator returns true if left-side ID
+### exists in the right-side ID
+
+scope {
+    var a = 3 @ [1..100]  # true
+    var b = 3 @ "qwe"      # false
+    var c = "a" @ "asd"    # true
+}
+
+###
+### '$' operator
+###
+### The '$' operator is a prefix unary operator
+### that returns a length of a ID
+
+scope {
+    $"something"     # will return 9
+    $[4, 3]          # will return 2
+}
+
+###
+### '[]' operator
+###
+
+scope {
+    var a = [3, 4, 2, 5]
+    print(a[0])   # Will give you "3"
+    print(a[-1])   # Will give you "5"
+    print(a[1:3]) # Will give you "[4, 2, 5]"
+    print(a[1:-1]) # Will give you "[4, 2, 5]"
+    print(a[3:])   # Will give you "[5]"
+    print(a[:3])   # Will give you "[3, 4, 2]"
+}

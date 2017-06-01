@@ -1,0 +1,22 @@
+if (a == 3) {
+    print("something")
+}
+if (qwe) print("something")
+if ("qwe") print("isadkkqwkekqwek")
+elif ("qwaa") print("whatever")
+else print("zxc")
+if (324) {
+    print("qwe")
+}elif (435) {
+    print("54")
+}else {
+    print("545")
+}
+if (6) {
+    print("245")
+} elif (3) {
+    print("432")
+}
+if (54){
+    print("qwe")
+} else print("qwe")

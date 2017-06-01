@@ -1,0 +1,40 @@
+GSh is a shell for* nix that has language called GShL (GSh Language)
+    GShL is imprative, dynamically typed language
+
+
+## Shell ##
+# Initialization:
+    1. Shell reads the file "config.gsh" in main configuration directory to retreive
+    basic configuration
+    2. Shell reads the file "init.gsh" in main configuration directory to do what
+        user wanna to do at startup
+
+# Paths:
+        Standard modules paths:
+            "/lib/gsh/modules"
+
+        Configuration paths:
+            "/etc/gsh/"
+            - Main configuration directory of "gsh" for all users
+            "~/.gsh/" - Main configuration directory of "gsh" for each user
+
+# Bindings:
+                You can bind ANY key in shell
+
+            Example :
+                @import shell
+
+                shell.bind_key("q", exit)
+
+# Use example:
+                    $ >> a
+                      [!] "a" is not defined
+                      $ >> function f(a, b)
+                {
+                    return a * b
+                }
+$ >> f(4, 7)
+  28
+  $ >> import "math"
+  $ >> math.sin = "qwe"
+                  [!] Module "math" is not changable

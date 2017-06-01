@@ -1,0 +1,115 @@
+(***************************)
+(* The GSh project grammar *)
+(***************************)
+
+program = compound_stmt EOF;
+
+(*************)
+(* Statement *)
+(*************)
+
+stmt = simple_stmt | compound_stmt;
+simple_stmt = flow_stmt |
+	      def_stmt |
+	      import_stmt |
+	      if_stmt |
+	      while_stmt |
+	      for_stmt |
+	      expr;
+compound_stmt = {stmt};
+
+(********************)
+(** Flow statement **)
+(********************)
+
+flow_stmt = return_stmt |
+	    continue_stmt |
+	    break_stmt;
+return_stmt = RETURN_KEYWORD expr;
+continue_stmt = CONTINUE_KEYWORD;
+break_stmt = BREAK_KEYWORD;
+
+(**************************)
+(** Definition statement **)
+(**************************)
+
+def_stmt = var_def_stmt |
+	   const_def_stmt |
+	   enum_def_stmt |
+	   func_def_stmt;
+var_def_stmt = VAR_KEYWORD identifier [EQUALS def_initializator];
+const_def_stmt = CONST_KEYWORD identifier EQUALS def_initializator;
+enum_def_stmt = ENUM_KEYWORD identifier LBRACE {identifier [EQUALS def_initializator]} RBRACE;
+func_def_stmt = FUNCTION_KEYWORD identifier funcdef_args_list block_stmt;
+func_def_args_list = LPAREN var {var,} RPAREN;
+def_initializator = expr;
+
+block_stmt = LBRACE compound_stmt RBRACE;
+stmt_separator = NEWLINE | SEMI;
+import_stmt = IMPORT_KEYWORD identifier;
+if_stmt = IF_KEYWORD if_cond if_body {[ELIF_KEYWORD if_cond if_body]} [ELSE_KEYWORD if_body];
+if_cond = LPAREN expr RPAREN;
+if_body = stmt;
+loop_stmt = LOOP_KEYWORD block_stmt;
+while_stmt = WHILE_KEYWORD while_cond while_body;
+while_cond = LPAREN expr RPAREN;
+while_body = block_stmt;
+for_stmt = FOR_KEYWORD for_header block_stmt;
+for_header = LPAREN (* ??? *) RPAREN;
+compound_stmt = block_stmt;
+
+assign_op = EQUALS | ADD_EQ | SUB_EQ | MUL_EQ | DIV_EQ | MOD_EQ | POW_EQ |
+	    LAND_EQ | LOR_EQ | BAND_EQ | BOR_EQ | BXOR_EQ | LS_EQ | RS_EQ;
+
+unary_op = PLUS | MINUS | EXCLAM | TILDA | INCREMENT | DECREMENT | DOLLAR;
+binary_op = arith_op | cmp_op;
+arith_op = PLUS | MINUS | STAR | SLASH | MODULUS | POW |
+	   LAND | LOR | BAND | BOR | BXOR | LS | RS;
+cmp_op = EQ | NEQ | LT | GT | LTE | GTE | IN;
+
+expr = [unary_op] term {binary_op term};
+term = factor {(MUL | DIV | POW | MOD) factor};
+factor = numlit | strlit | call_expr | (LPAREN expr RPAREN);
+call_expr: identifier call_expr_args_list
+call_expr_args_list: LPAREN [call_expr_arg] {call_expr_arg, } RPAREN
+call_expr_arg: identifier
+
+comment =  single_comment | block_comment;
+single_comment = HASH NOT_EOL*;
+block_comment = HASH LBRACE ? all characters except sequences '{#' and '}#' ? RBRACE HASH;
+doc_string = single_doc_string | block_doc_string;
+single_doc_string = QUESTION_MARK source_char*;
+block_doc_string = QUESTION_MARK LBRACE ? all characters except sequences '?{' and '}?' ? RBRACE QUESTION_MARK;
+identifier =  LETTER {LETTER | DIGIT};
+literal = numlit | strlit | listlit | dictlit;
+numlit = DIGIT+;
+strlit = QUOTE {LETTER | DIGIT} QUOTE;
+listlit = LBRACKET {literal COMMA} RBRACKET;
+dictlit = LBRACE {literal EQUALS initializator comma} RBRACE;
+source_char = ascii_char;
+
+(* Keywords *)
+RETURN_KEYWORD = 'return';
+CONTINUE_KEYWORD = 'continue';
+BREAK_KEYWORD = 'break';
+VAR_KEYWORD = 'var';
+CONST_KEYWORD = 'const';
+ENUM_KEYWORD = 'enum';
+FUNCTION_KEYWORD = 'function';
+IMPORT_KEYWORD = 'import';
+IF_KEYWORD = 'if';
+ELIF_KEYWORD = 'elif';
+ELSE_KEYWORD = 'else';
+WHILE_KEYWORD = 'while';
+FOR_KEYWORD = 'for';
+
+(* Characters *)
+LPAREN = '(';
+RPAREN = ')';
+EQUALS = '=';
+NEWLINE = '\n'
+SEMI = ';';
+COMMA = ','
+DIGIT = [0-9]
+LETTER = [a-zA-Z]
+EOF = '\0'

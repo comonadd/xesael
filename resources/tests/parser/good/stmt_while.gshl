@@ -1,0 +1,10 @@
+while (32) {
+    print("something")
+}
+
+while (0) print("nothing")
+
+var a = 0
+while (a = 3) {
+    print("something")
+}

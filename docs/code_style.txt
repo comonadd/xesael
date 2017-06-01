@@ -1,0 +1,124 @@
+################################
+### Taste project code style ###
+################################
+
+### Denotation
+# "###" - Code style section
+# "**" - Code style section rule
+# "<>" - Code style soruce code example
+
+### Documentation of the code
+
+** All functions should be described like this:
+    <>
+
+        /**
+            $ Description:
+            #   Some description
+            $ Return values:
+            #   Whatever on success
+            #   -1 on failure
+            $ Input:
+            #   something
+            $ Output:
+            #   whatever
+            $ Gotos:
+            #   out_some_err:
+            #       This goto represents a situation
+            #       in which we have some error, and...
+            @arg - argument description
+        **/
+
+        int something(int arg)
+        {
+            /* Body */
+        whatever:
+            return -1;
+        }
+
+    <>
+
+    $ - means section of description (EXACTLY 1 space after)
+    # - section continuation (EXACTLY 3 spaces after)
+    NOTE: YOU ALWAYS SHOULD DESCRIBE EACH (EACH) GOTO IN THIS SECTION
+
+    ** All structs should be described exactly the same way as functions
+    ** All enums should be described exactly the same way as functions
+
+### Not selected:
+    ** If you have more than 1 argument in function declaration/definition,
+       do this kind of thing:
+        <>
+            int func(
+                int a,
+                int b);
+        <>
+
+    ** Always place "*" just after type, like this:
+        <>
+            FILE* f = fopen(filename, mode);
+        <>
+
+    ** If function takes no arguments, just write like this:
+        <>
+            int func(void)
+            {
+                /* Body */
+            }
+        <>
+
+    ** If function returns no value, it's return type should be
+       the NoRet:
+       <>
+           NoRet do_something(int a, int b);
+       <>
+
+    ** If you wanna to check that pointer is NULL, do this:
+        <>
+            if (!ptr)
+            {
+                /* Body */
+            }
+        <>
+
+    ** In each file should be a comment at the top:
+        <>
+            /* File: name.ext */
+            /* Creation date: day_num.month_num.year_num */
+            /* Author: Name Surname <email> */
+        <>
+
+### Preprocessor:
+    ** Each #ifdef and #ifndef preprocessor statements should look something like this:
+        <>
+        #ifdef SOMETHING
+        #else
+        #endif /* SOMETHING */
+        <>
+
+        /* In case of NOT */
+
+        <>
+        #ifndef SOMETHING
+        #else
+        #endif /* !SOMETHING */
+        <>
+
+### Indentation
+    ** After includes should be a exactly one empty line
+    ** After file top comment should be a exactly one empty line
+    ** After each function should be a exactly one empty line
+
+### Naming
+    ** All files should be named in lowercase-underscore style
+    ** Function names: do_something()
+    ** Variable names: is_good
+    ** Type names: SomeType
+    ** Constant names should be all in the caps
+
+### Includes
+    ** Order:
+        1. If this is a source file that has a header file with the same name, include of this header
+        2. C standard library includes
+        3. Third - Party library includes
+        4. Project includes

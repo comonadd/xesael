@@ -1,0 +1,31 @@
+###############################################
+### This file describes the Taste arguments ###
+###############################################
+
+###################################################################################################
+### Available options                                                                           ###
+###################################################################################################
+### Short version        Long version                 Description                               ###
+###################################################################################################
+### ["-v"]               ["--verbose"]                    {print version info and exit}         ###
+### ["-h"]               ["--help"]                       {print help and exit}                 ###
+### ["-O l"]             ["--optimization l"]             {optimize by the level l}             ###
+### ["-P path"]          ["--path path"]                  {set the modules search path}         ###
+### ["-I {lib,} lib"]    ["--include {lib,} lib"]         {pre-import given list of libraries}  ###
+### ["-o file"]          ["--output file"]                {set the compiler output file}        ###
+### ["-c file"]          ["--compile file"]               {compile given file}                  ###
+### ["-e file"]          ["--execute file"]               {execute given file}                  ###
+### ["-E cmd"]           ["--execute_str cmd"]            {execute given string}                ###
+###################################################################################################
+
+### Definition
+./taste [options] program_args
+program_args - arguments passed into the actual program
+
+### Examples
+
+Compile given Taste source file:
+    taste -c something.tt
+
+Execute given Taste source file:
+    taste -e something.tt

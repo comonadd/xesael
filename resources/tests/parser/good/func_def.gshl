@@ -1,0 +1,7 @@
+function something(a, b) {
+    print("qwe", a, b)
+}
+
+function qweads(a) return a
+
+function add(a, b) return a + b

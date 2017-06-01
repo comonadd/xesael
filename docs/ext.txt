@@ -1,0 +1,4 @@
+This file describes the extensions used by the Taste
+
+*.tt - Taste source file
+*.ttc - Taste bytecode file

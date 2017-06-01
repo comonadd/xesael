@@ -1,0 +1,35 @@
+This file describes how you should code this project
+
+All data structures that you create should have
+- initialization function
+- deinitialization function
+- dynamic allocation function
+
+Init function:
+Assumptions:
+struct is not initialized
+        Required arguments:
+        pointer to a data structure to init
+        Actions:
+        should set "initialized" property of the struct to true
+            set all values to defaultReturns nothing
+
+            De - init function:
+            Assumptions:
+            struct is initialized
+                Required arguments:
+                pointer to a data structure to deinit
+                Actions:
+                should set "initialized" property of the struct to false
+                    set all values to defaultShouldn't:
+                    deallocate the given pointer
+                    Returns nothing
+
+                    Dynamic allocation function:
+                    Takes no arguments
+                    Returns pointer to a newly allocated thing
+
+
+Something another:
+    Each function should have DEV_ASSERT() calls at the beginning
+    for the invalid arguments

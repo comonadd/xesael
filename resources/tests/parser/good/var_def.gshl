@@ -1,0 +1,8 @@
+var a = 3;
+var a;
+var a
+var a = "qwe"
+var a = 3.5
+var a = 3 ** 5 / 3 % 6 ^ 3
+var a = "qwe" + "asd"
+var a = 3.6 % 5.5
