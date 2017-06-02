@@ -10,11 +10,11 @@
 
 struct Object* obj_func_new(void)
 {
-    return obj_new(OBJT_FUNC);
+  return obj_new(OBJT_FUNC);
 }
 
 NoRet obj_func_delete(struct Object* obj)
 {
-    bytecode_delete(obj->data.func.bc);
-    xfree(obj);
+  bytecode_delete(obj->data.func.bc);
+  xfree(obj);
 }

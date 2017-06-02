@@ -10,7 +10,7 @@
 #include "lib/types.h"
 
 struct Compiler {
-    char const* src_name;
+  char const* src_name;
 };
 
 /********************/
@@ -30,13 +30,8 @@ extern struct Compiler compiler;
 **/
 NoRet compiler_prepare(char const* src_name);
 
-NoRet compiler_err_set(
-    const LineNumber ln,
-    char const* msg);
+NoRet compiler_err_set(const LineNumber ln, char const* msg);
 
-NoRet compiler_err_setf(
-    const LineNumber ln,
-    char const* frmt,
-    ...);
+NoRet compiler_err_setf(const LineNumber ln, char const* frmt, ...);
 
 #endif /* COMPILER_H */

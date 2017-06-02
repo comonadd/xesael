@@ -7,12 +7,12 @@
 #ifndef GSH_AST_H
 #define GSH_AST_H
 
+#include "core/compiler/ast/ast_node.h"
 #include "lib/types.h"
 #include "lib/xvec.h"
-#include "core/compiler/ast/ast_node.h"
 
 struct AST {
-    struct XVector childs;
+  struct XVector childs;
 };
 
 /***********/
@@ -27,12 +27,8 @@ struct AST* ast_new(void);
 
 NoRet ast_delete(struct AST* ast);
 
-NoRet ast_append(
-    struct AST* ast,
-    struct ASTNode* node);
+NoRet ast_append(struct AST* ast, struct ASTNode* node);
 
-struct ASTNode* ast_get_child(
-    struct AST* ast,
-    const uint64 i);
+struct ASTNode* ast_get_child(struct AST* ast, const uint64 i);
 
 #endif /* GSH_AST_H */

@@ -10,9 +10,7 @@
 #include "types.h"
 
 /* String hashing function */
-uint32 str_hash(
-    const char* key,
-    uint64 len);
+uint32 str_hash(const char* key, uint64 len);
 
 uint32 str_hash_f(const void* key);
 

@@ -17,9 +17,9 @@
    @prev - pointer to a previous node
 **/
 struct DLinkedListNode {
-    void* val;
-    struct DLinkedListNode* next;
-    struct DLinkedListNode* prev;
+  void* val;
+  struct DLinkedListNode* next;
+  struct DLinkedListNode* prev;
 };
 
 /**
@@ -50,39 +50,36 @@ struct DLinkedListNode {
    @eq_f - function that says "are two values of the nodes are equal"
 **/
 struct DLinkedList {
-    uint64 size;
-    struct DLinkedListNode* sentinel;
-    struct DLinkedListNode* head;
-    struct DLinkedListNode* tail;
-    NoRet (*val_free_f)(void* val);
-    int (*val_cmp_f)(void* val1, void* val2);
+  uint64 size;
+  struct DLinkedListNode* sentinel;
+  struct DLinkedListNode* head;
+  struct DLinkedListNode* tail;
+  NoRet (*val_free_f)(void* val);
+  int (*val_cmp_f)(void* val1, void* val2);
 };
 
 /***********/
 /* Helpers */
 /***********/
 
-NoRet dlinkedlist_node_delete(
-    struct DLinkedList* list,
-    struct DLinkedListNode* node);
+NoRet dlinkedlist_node_delete(struct DLinkedList* list,
+                              struct DLinkedListNode* node);
 
 /**
    $ Description:
    #   This function initializes the
    #   double-linked list structure
 **/
-NoRet dlinked_list_init(
-    struct DLinkedList* list,
-    NoRet (*val_free_f)(void* val),
-    int (*val_cmp_f)(void* val1, void* val2));
+NoRet dlinked_list_init(struct DLinkedList* list,
+                        NoRet (*val_free_f)(void* val),
+                        int (*val_cmp_f)(void* val1, void* val2));
 
 /**
    $ Description:
    #   This function returns true
    #   if the list is empty, false otherwise
 **/
-bool dlinked_list_is_empty(
-    struct DLinkedList* list);
+bool dlinked_list_is_empty(struct DLinkedList* list);
 
 /**
    $ Description:
@@ -92,8 +89,7 @@ bool dlinked_list_is_empty(
    #   If first element exists, returns it
    #   If not, returns sentinel node
 **/
-struct DLinkedListNode* dlinkedlist_first(
-    struct DLinkedList* list);
+struct DLinkedListNode* dlinkedlist_first(struct DLinkedList* list);
 
 /**
    $ Description:
@@ -105,59 +101,49 @@ struct DLinkedListNode* dlinkedlist_first(
 **/
 /* NOTE: This function should be ALWAYS used to retreive */
 /*       the last element of the list (if list has no tail, it returns head) */
-struct DLinkedListNode* dlinkedlist_last(
-    struct DLinkedList* list);
+struct DLinkedListNode* dlinkedlist_last(struct DLinkedList* list);
 
 /**********/
 /* Insert */
 /**********/
 
-NoRet dlinkedlist_insert_after(
-    struct DLinkedList* list,
-    struct DLinkedListNode* node,
-    struct DLinkedListNode* new_node);
+NoRet dlinkedlist_insert_after(struct DLinkedList* list,
+                               struct DLinkedListNode* node,
+                               struct DLinkedListNode* new_node);
 
-NoRet dlinkedlist_insert_before(
-    struct DLinkedList* list,
-    struct DLinkedListNode* node,
-    struct DLinkedListNode* new_node);
+NoRet dlinkedlist_insert_before(struct DLinkedList* list,
+                                struct DLinkedListNode* node,
+                                struct DLinkedListNode* new_node);
 
 /**
    $ Description:
    #   Insert to the beginning of the list
 **/
-NoRet dlinkedlist_prepend(
-    struct DLinkedList* list,
-    struct DLinkedListNode* node);
+NoRet dlinkedlist_prepend(struct DLinkedList* list,
+                          struct DLinkedListNode* node);
 
 /**
    $ Description:
    #   Insert to the end of the list
 **/
-NoRet dlinkedlist_append(
-    struct DLinkedList* list,
-    struct DLinkedListNode* node);
+NoRet dlinkedlist_append(struct DLinkedList* list,
+                         struct DLinkedListNode* node);
 
 /**********/
 /* Remove */
 /**********/
 
-NoRet dlinkedlist_remove(
-    struct DLinkedList* list,
-    struct DLinkedListNode* node);
+NoRet dlinkedlist_remove(struct DLinkedList* list,
+                         struct DLinkedListNode* node);
 
-NoRet dlinkedlist_remove_first(
-    struct DLinkedList* list);
+NoRet dlinkedlist_remove_first(struct DLinkedList* list);
 
-NoRet dlinkedlist_remove_last(
-    struct DLinkedList* list);
+NoRet dlinkedlist_remove_last(struct DLinkedList* list);
 
 /**********/
 /* Search */
 /**********/
 
-struct DLinkedListNode* dlinkedlist_search(
-    struct DLinkedList* list,
-    void* val);
+struct DLinkedListNode* dlinkedlist_search(struct DLinkedList* list, void* val);
 
 #endif /* DLINKEDLIST_H */

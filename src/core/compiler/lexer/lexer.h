@@ -9,10 +9,10 @@
 
 #include <ctype.h>
 
-#include "lib/types.h"
 #include "lib/macros.h"
-#include "lib/xvec.h"
 #include "lib/str_stream.h"
+#include "lib/types.h"
+#include "lib/xvec.h"
 
 /* This thing actually specifies what is the longest */
 /* identifier length that we could lex */
@@ -28,11 +28,11 @@
    @toks - vector for storing results
 **/
 struct Lexer {
-    char buf[LEXER_BUF_SIZE];
-    struct StringStream stream;
-    uint64 buf_len;
-    LineNumber ln;
-    struct XVector* toks;
+  char buf[LEXER_BUF_SIZE];
+  struct StringStream stream;
+  uint64 buf_len;
+  LineNumber ln;
+  struct XVector* toks;
 };
 
 /*************/
@@ -45,15 +45,17 @@ extern struct Lexer lexer;
 /* Methods */
 /***********/
 
-#define lexer_clear_buf() do {			\
-        lexer.buf[0] = STR_END_CH;		\
-        lexer.buf_len = 0;			\
-    } while (0)
+#define lexer_clear_buf()       \
+  do {                          \
+    lexer.buf[0]  = STR_END_CH; \
+    lexer.buf_len = 0;          \
+  } while (0)
 
-#define lexer_save(ch) do {                     \
-        lexer.buf[lexer.buf_len++] = ch;        \
-        lexer.buf[lexer.buf_len] = STR_END_CH;	\
-    } while (0)
+#define lexer_save(ch)                       \
+  do {                                       \
+    lexer.buf[lexer.buf_len++] = ch;         \
+    lexer.buf[lexer.buf_len]   = STR_END_CH; \
+  } while (0)
 
 #define lexer_get_buf_val() lexer.buf
 
@@ -83,24 +85,28 @@ extern struct Lexer lexer;
 #define lexer_get_toks_count() lexer.toks->size
 #define lexer_get_ln() lexer.ln
 #define lexer_incr_ln() ++lexer.ln
-#define lexer_get_pt() CAST(lexer.toks->elems[lexer.toks->size - 1], struct Token*)
+#define lexer_get_pt() \
+  CAST(lexer.toks->elems[lexer.toks->size - 1], struct Token*)
 
 #define lexer_init_buf() lexer_clear_buf()
 #define lexer_init_stream() str_stream_init(&lexer.stream, text);
-#define lexer_init(___text) do {                \
-        lexer_init_buf();                       \
-        lexer_init_stream();                    \
-        lexer.toks = xvec_new(tok_free_f);      \
-        lexer.ln = 1;                           \
-    } while (0)
+#define lexer_init(___text)            \
+  do {                                 \
+    lexer_init_buf();                  \
+    lexer_init_stream();               \
+    lexer.toks = xvec_new(tok_free_f); \
+    lexer.ln   = 1;                    \
+  } while (0)
 
 #define lexer_deinit_buf() lexer_clear_buf()
 
-#define lexer_deinit() do {                     \
-        lexer_deinit_buf();                     \
-    } while (0)
+#define lexer_deinit()  \
+  do {                  \
+    lexer_deinit_buf(); \
+  } while (0)
 
-#define lexer_append_tok(___tok) xvec_append(lexer.toks, CAST((___tok), struct Token*))
+#define lexer_append_tok(___tok) \
+  xvec_append(lexer.toks, CAST((___tok), struct Token*))
 
 bool lexer_append_tok_keyword(char const* val);
 

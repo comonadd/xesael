@@ -18,16 +18,16 @@
 #ifndef SYMTABLE_H
 #define SYMTABLE_H
 
-#include "lib/types.h"
-#include "lib/macros.h"
-#include "lib/dict.h"
 #include "core/compiler/sym/sym.h"
+#include "lib/dict.h"
+#include "lib/macros.h"
+#include "lib/types.h"
 
 #define SYMBOL_TABLE_DICT_SIZE 256
 
 struct SymbolTable {
-    struct Dictionary symbols;
-    struct SymbolTable* prev;
+  struct Dictionary symbols;
+  struct SymbolTable* prev;
 };
 
 /***********/
@@ -42,12 +42,8 @@ struct SymbolTable* st_new(void);
 
 NoRet st_delete(struct SymbolTable* st);
 
-bool st_insert(
-    struct SymbolTable* st,
-    struct Symbol const* sym);
+bool st_insert(struct SymbolTable* st, struct Symbol const* sym);
 
-struct Symbol* st_lookup(
-    struct SymbolTable const* st,
-    char const* name);
+struct Symbol* st_lookup(struct SymbolTable const* st, char const* name);
 
 #endif /* SYMTABLE_H */

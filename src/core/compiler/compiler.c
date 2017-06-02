@@ -6,11 +6,11 @@
 
 #include "core/compiler/compiler.h"
 
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 
-#include "lib/types.h"
 #include "lib/macros.h"
+#include "lib/types.h"
 #include "lib/xmalloc.h"
 
 #include "err.h"
@@ -27,34 +27,29 @@ struct Compiler compiler;
 
 NoRet compiler_prepare(char const* src_name)
 {
-    compiler.src_name = src_name;
+  compiler.src_name = src_name;
 }
 
-NoRet compiler_err_set(
-    const LineNumber ln,
-    char const* msg)
+NoRet compiler_err_set(const LineNumber ln, char const* msg)
 {
-    err_set_custom(
-        "[!] Compiler Error [%s, %lu]: %s\n",
-        compiler.src_name, ln, msg);
+  err_set_custom(
+    "[!] Compiler Error [%s, %lu]: %s\n", compiler.src_name, ln, msg);
 }
 
-NoRet compiler_err_setf(
-    const LineNumber ln,
-    char const* frmt, ...)
+NoRet compiler_err_setf(const LineNumber ln, char const* frmt, ...)
 {
-    /* Initialize the arguments */
-    va_list vargs;
-    va_start(vargs, frmt);
+  /* Initialize the arguments */
+  va_list vargs;
+  va_start(vargs, frmt);
 
-    /* Format the message */
-    char* msg;
-    vasprintf(&msg, frmt, vargs);
+  /* Format the message */
+  char* msg;
+  vasprintf(&msg, frmt, vargs);
 
-    /* Set the error */
-    compiler_err_set(ln, msg);
+  /* Set the error */
+  compiler_err_set(ln, msg);
 
-    /* Free all the stuff */
-    va_end(vargs);
-    xfree(msg);
+  /* Free all the stuff */
+  va_end(vargs);
+  xfree(msg);
 }

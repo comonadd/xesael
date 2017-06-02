@@ -9,6 +9,6 @@
 /* TODO: Implement */
 bool translate_for_loop_node(struct ASTNode* node)
 {
-    UNUSED(node);
-    return false;
+  UNUSED(node);
+  return false;
 }

@@ -32,9 +32,7 @@ NoRet str_reverse(char* s);
    #   This function concatenates
    #   the two strings together
 **/
-char* str_concat(
-    const char* s1,
-    const char* s2);
+char* str_concat(const char* s1, const char* s2);
 
 /**
    $ Description:
@@ -45,19 +43,14 @@ char* str_concat(
    @len - length of a given string
    @n - number of times to concatenate
 **/
-char* str_mul(
-    const char* str,
-    const uint64 len,
-    uint64 n);
+char* str_mul(const char* str, const uint64 len, uint64 n);
 
 /**
    $ Description:
    #   This function concatenates all the items in the
    #   given array of strings together
 **/
-char* str_arr_concat(
-    const char** arr,
-    uint64 size);
+char* str_arr_concat(const char** arr, uint64 size);
 
 /* NOTE: This two functions do not handle */
 /*       invalid number literals */
@@ -71,8 +64,6 @@ double str2double(const char* str);
    #   two strings together
    #   (it is needed for some DS interfaces)
 **/
-int str_cmp_f(
-    const void* str1,
-    const void* str2);
+int str_cmp_f(const void* str1, const void* str2);
 
 #endif /* STR_H */

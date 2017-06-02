@@ -21,9 +21,7 @@
    @path - path of a directory
    @entries_count - count of entries in directory
 **/
-char** list_dir(
-    const char* path,
-    uint64* entries_count);
+char** list_dir(const char* path, uint64* entries_count);
 
 /**
    $ Description:
@@ -33,9 +31,7 @@ char** list_dir(
    @src_path - source path
    @dst_path - destination path
 **/
-bool file_copy(
-    const char* src_path,
-    const char* dst_path);
+bool file_copy(const char* src_path, const char* dst_path);
 
 /**
    $ Description:
@@ -45,9 +41,7 @@ bool file_copy(
    @src_path - source path
    @dst_path - destination path
 **/
-bool dir_copy(
-    const char* src_path,
-    const char* dst_path);
+bool dir_copy(const char* src_path, const char* dst_path);
 
 /*********/
 /* Tests */

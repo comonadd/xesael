@@ -9,14 +9,14 @@
 
 #include "err.h"
 
-#include "lib/types.h"
 #include "lib/macros.h"
+#include "lib/types.h"
 #include "lib/xvec.h"
 
 #include "core/compiler/token/token.h"
 
-#include "core/object/ops/unop.h"
 #include "core/object/ops/binop.h"
+#include "core/object/ops/unop.h"
 
 /* Forward declaration */
 struct CFuncArguments;
@@ -29,40 +29,40 @@ struct CFuncArguments;
    @OBJT_CFUNC - C function object
 **/
 enum ObjectType {
-    OBJT_INUM,
-    OBJT_DNUM,
-    OBJT_STR,
-    OBJT_FUNC,
-    OBJT_CFUNC,
-    OBJ_TYPES_COUNT
+  OBJT_INUM,
+  OBJT_DNUM,
+  OBJT_STR,
+  OBJT_FUNC,
+  OBJT_CFUNC,
+  OBJ_TYPES_COUNT
 };
 
 union ObjectData {
-    /* Integer number */
-    struct {
-        int64 val;
-    } inum;
+  /* Integer number */
+  struct {
+    int64 val;
+  } inum;
 
-    /* Double-precision number */
-    struct {
-        double val;
-    } dnum;
+  /* Double-precision number */
+  struct {
+    double val;
+  } dnum;
 
-    /* String */
-    struct {
-        uint64 len;
-        char* val;
-    } str;
+  /* String */
+  struct {
+    uint64 len;
+    char* val;
+  } str;
 
-    /* Function */
-    struct {
-        struct ByteCode* bc;
-    } func;
+  /* Function */
+  struct {
+    struct ByteCode* bc;
+  } func;
 
-    /* C Function */
-    struct {
-        struct Object* (*f)(struct CFuncArguments* args);
-    } cfunc;
+  /* C Function */
+  struct {
+    struct Object* (*f)(struct CFuncArguments* args);
+  } cfunc;
 };
 
 /**
@@ -72,9 +72,9 @@ union ObjectData {
    @type - type of a object
 **/
 struct Object {
-    union ObjectData data;
-    uint64 ref_count;
-    enum ObjectType type;
+  union ObjectData data;
+  uint64 ref_count;
+  enum ObjectType type;
 };
 
 /*************/
@@ -94,25 +94,23 @@ enum ObjectBinOpType;
 /* Helpers */
 /***********/
 
-#define OBJ_ASSERT_TYPE(__obj, __t) \
-    DASSERT(((__obj)->type == (__t)), "")
+#define OBJ_ASSERT_TYPE(__obj, __t) DASSERT(((__obj)->type == (__t)), "")
 #define OBJ_TYPE_IS_VALID(__type) ((__type) < OBJ_TYPES_COUNT)
 
 #define objt2str(___t) OBJ_TYPES_STR[CAST(___t, uint64)]
 #define obj2str(___obj) objt2str(CAST(___obj, struct Object*)->type)
-#define obj_print(___obj) do {						\
-        char const* type_str = objt2str(CAST(___obj, struct Object*)->type);	\
-        printf("<%p> {%s}", CAST(___obj, void*), type_str);		\
-    } while (0)
+#define obj_print(___obj)                                                \
+  do {                                                                   \
+    char const* type_str = objt2str(CAST(___obj, struct Object*)->type); \
+    printf("<%p> {%s}", CAST(___obj, void*), type_str);                  \
+  } while (0)
 
-NoRet obj_err_set_unsupported_unop(
-    const enum ObjectUnOpType unop_type,
-    const enum ObjectType op_type);
+NoRet obj_err_set_unsupported_unop(const enum ObjectUnOpType unop_type,
+                                   const enum ObjectType op_type);
 
-NoRet obj_err_set_unsupported_binop(
-    const enum ObjectBinOpType binop_type,
-    const enum ObjectType lop_type,
-    const enum ObjectType rop_type);
+NoRet obj_err_set_unsupported_binop(const enum ObjectBinOpType binop_type,
+                                    const enum ObjectType lop_type,
+                                    const enum ObjectType rop_type);
 
 NoRet obj_free_f(struct Object* obj);
 
@@ -120,9 +118,7 @@ NoRet obj_free_f(struct Object* obj);
 /* Methods */
 /***********/
 
-NoRet obj_init(
-    struct Object* obj,
-    const enum ObjectType type);
+NoRet obj_init(struct Object* obj, const enum ObjectType type);
 
 struct Object* obj_new(const enum ObjectType type);
 

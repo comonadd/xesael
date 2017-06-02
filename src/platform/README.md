@@ -1,2 +1,1 @@
-##Description
-This directory contains all platform-dependent code
+##Description This directory contains all platform - dependent code

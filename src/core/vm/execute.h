@@ -7,8 +7,8 @@
 #ifndef VM_EXECUTE_H
 #define VM_EXECUTE_H
 
-#include "lib/types.h"
 #include "core/vm/bytecode/bytecode.h"
+#include "lib/types.h"
 
 bool execute(struct ByteCode const* bc);
 

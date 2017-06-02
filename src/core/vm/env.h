@@ -6,26 +6,23 @@
 #ifndef GSH_VM_ENV_H
 #define GSH_VM_ENV_H
 
+#include "core/object/object.h"
 #include "lib/dict.h"
 #include "lib/hash.h"
-#include "core/object/object.h"
 
 struct Environment {
-    struct Dictionary vars;
-    struct Environment* prev;
+  struct Dictionary vars;
+  struct Environment* prev;
 };
 
 struct Environment* env_new(void);
 
 NoRet env_delete(struct Environment* env);
 
-NoRet env_set_var(
-    struct Environment* env,
-    char const* name,
-    struct Object const* obj);
+NoRet env_set_var(struct Environment* env,
+                  char const* name,
+                  struct Object const* obj);
 
-struct Object* env_get_var(
-    struct Environment const* env,
-    char const* name);
+struct Object* env_get_var(struct Environment const* env, char const* name);
 
 #endif /* GSH_VM_ENV_H */

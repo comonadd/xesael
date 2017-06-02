@@ -6,13 +6,13 @@
 
 #include "core/compiler/translator/translate/translate_def/translate_enum_def.h"
 
-#include "lib/types.h"
 #include "lib/macros.h"
+#include "lib/types.h"
 
 #include "core/compiler/ast/ast_node.h"
 
 bool translate_enum_def_node(struct ASTNode* node)
 {
-    UNUSED(node);
-    return false;
+  UNUSED(node);
+  return false;
 }

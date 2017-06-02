@@ -9,47 +9,45 @@
 #include "lib/types.h"
 
 #include "core/compiler/ast/ast_node.h"
-#include "core/compiler/translator/translator.h"
 #include "core/compiler/translator/translate/translate.h"
+#include "core/compiler/translator/translator.h"
 #include "core/vm/instruction/instruction.h"
 
 bool translate_while_node(struct ASTNode* node)
 {
-    struct ASTNode* cond = node->data.while_.cond;
-    struct ASTNode* body = node->data.while_.body;
+  struct ASTNode* cond = node->data.while_.cond;
+  struct ASTNode* body = node->data.while_.body;
 
-    /* Retreive the start position of the loop */
-    InstructionPosition start_pos = translator_get_ip();
+  /* Retreive the start position of the loop */
+  InstructionPosition start_pos = translator_get_ip();
 
-    /* Compile condition node */
-    if (!translate_node(cond)) return false;
+  /* Compile condition node */
+  if (!translate_node(cond)) return false;
 
-    /* Reserve current instruction position */
-    /* (for further replacement) */
-    InstructionPosition enter_cond_check_instr_pos;
-    enter_cond_check_instr_pos = translator_reserve_ip();
+  /* Reserve current instruction position */
+  /* (for further replacement) */
+  InstructionPosition enter_cond_check_instr_pos;
+  enter_cond_check_instr_pos = translator_reserve_ip();
 
-    /* Compile body node */
-    if (!translate_node(body)) return false;
+  /* Compile body node */
+  if (!translate_node(body)) return false;
 
-    /* Retreive the end position of the loop */
-    InstructionPosition end_pos = translator_get_ip();
+  /* Retreive the end position of the loop */
+  InstructionPosition end_pos = translator_get_ip();
 
-    /* Get the count of instructions in WHILE */
-    /* loop body */
-    InstructionPosition body_instr_count;
-    body_instr_count = end_pos - start_pos;
+  /* Get the count of instructions in WHILE */
+  /* loop body */
+  InstructionPosition body_instr_count;
+  body_instr_count = end_pos - start_pos;
 
-    /* Emit a new JMPR instruction */
-    Instruction goto_end_of_loop_instr = instr_jmpr_new(
-        -body_instr_count);
-    translator_append_instr(goto_end_of_loop_instr);
+  /* Emit a new JMPR instruction */
+  Instruction goto_end_of_loop_instr = instr_jmpr_new(-body_instr_count);
+  translator_append_instr(goto_end_of_loop_instr);
 
-    /* Create a new JMPRCI instruction */
-    Instruction enter_cond_check_instr = instr_jmprci_new(
-        end_pos - enter_cond_check_instr_pos + 1,
-        cond->rid);
-    translator_insert_instr(enter_cond_check_instr_pos, enter_cond_check_instr);
+  /* Create a new JMPRCI instruction */
+  Instruction enter_cond_check_instr =
+    instr_jmprci_new(end_pos - enter_cond_check_instr_pos + 1, cond->rid);
+  translator_insert_instr(enter_cond_check_instr_pos, enter_cond_check_instr);
 
-    return true;
+  return true;
 }

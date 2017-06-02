@@ -12,28 +12,16 @@
 
 extern double dbl_abs(const double d);
 
-extern bool dbl_eq(
-    const double a,
-    const double b);
+extern bool dbl_eq(const double a, const double b);
 
-extern bool dbl_neq(
-    const double a,
-    const double b);
+extern bool dbl_neq(const double a, const double b);
 
-extern bool dbl_lt(
-    const double a,
-    const double b);
+extern bool dbl_lt(const double a, const double b);
 
-extern bool dbl_gt(
-    const double a,
-    const double b);
+extern bool dbl_gt(const double a, const double b);
 
-extern bool dbl_lte(
-    const double a,
-    const double b);
+extern bool dbl_lte(const double a, const double b);
 
-extern bool dbl_gte(
-    const double a,
-    const double b);
+extern bool dbl_gte(const double a, const double b);
 
 #endif /* DBL_H */

@@ -7,5 +7,4 @@
 #define GSH_OBJ_DICT_H
 
 
-
 #endif /* GSH_OBJ_DICT_H */

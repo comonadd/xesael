@@ -17,7 +17,7 @@
    @elems - the actual array of arguments
 **/
 struct CFuncArguments {
-    struct XVector args;
+  struct XVector args;
 };
 
 typedef struct Object* (*CFuncImpl)(struct CFuncArguments*);
@@ -28,12 +28,9 @@ typedef struct Object* (*CFuncImpl)(struct CFuncArguments*);
 **/
 struct CFuncArguments* cfunc_args_new(void);
 
-NoRet cfunc_args_append(
-    struct CFuncArguments* args,
-    struct Object const* arg);
+NoRet cfunc_args_append(struct CFuncArguments* args, struct Object const* arg);
 
-struct Object const* cfunc_args_get(
-    struct CFuncArguments* args,
-    const uint64 i);
+struct Object const* cfunc_args_get(struct CFuncArguments* args,
+                                    const uint64 i);
 
 #endif /* CFUNC_H */

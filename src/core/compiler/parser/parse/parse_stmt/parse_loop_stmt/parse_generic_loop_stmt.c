@@ -11,5 +11,5 @@
 /* TODO: Implement */
 struct ASTNode* parse_generic_loop_stmt(void)
 {
-    return NULL;
+  return NULL;
 }

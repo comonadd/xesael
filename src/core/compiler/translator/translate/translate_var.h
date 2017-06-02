@@ -7,8 +7,8 @@
 #ifndef TRANSLATE_VAR_NODE_H
 #define TRANSLATE_VAR_NODE_H
 
-#include "lib/types.h"
 #include "core/compiler/ast/ast_node.h"
+#include "lib/types.h"
 
 bool translate_var_node(struct ASTNode* node);
 

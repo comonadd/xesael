@@ -6,8 +6,8 @@
 #ifndef TRANSLATE_IF_H
 #define TRANSLATE_IF_H
 
-#include "lib/types.h"
 #include "core/compiler/ast/ast_node.h"
+#include "lib/types.h"
 
 bool translate_if_node(struct ASTNode* node);
 
