@@ -1,4 +1,10 @@
-#!/usr/bin/python
+k  # !/usr/bin/python
+
+# File: manage.py
+# Creation date: 2017-02-05
+# Creator: Dmitry Guzeev <dmitry.guzeev@yahoo.com>
+# Description:
+#  The project management script
 
 import os
 import sys
@@ -36,17 +42,38 @@ DEFAULT_MODULES_SEARCH_PATH = "/usr/share/gsh/modules"
 RESOURCES_ROOT_DIR = "{}/resources".format(ROOT_DIR)
 PARSER_TESTS_RESOURCES_DIR = "{}/tests/parser".format(RESOURCES_ROOT_DIR)
 LEXER_TESTS_RESOURCES_DIR = "{}/tests/lexer".format(RESOURCES_ROOT_DIR)
-FILE_WITH_HELLO_IN_IT = "{}/resources/tests/platform/file_with_word_hello.txt".format(ROOT_DIR)
+FILE_WITH_HELLO_IN_IT = "{}/resources/tests/platform/file_with_word_hello.txt".format(
+    ROOT_DIR)
 EXEC = "{}/tmp/taste".format(ROOT_DIR)
 
+
 class LDWrapper(object):
+    """
+    The wrapper around the linker. Supports only gcc at the moment
+
+    Attributes
+    ----------
+    ld: str
+      The command to run the linker
+    flags: str[]
+      The flags to pass to the linker
+    """
+
     ld = "gcc"
     flags = ["-lc", "-lm"]
 
     def __init__(self, debug):
+        """
+        Initialize the wrapper.
+
+        Parameters
+        ----------
+        debug: bool
+          The "debug" flag. If set to True, the debug flags would be added.
+        """
+
         if debug:
             self.flags += ["-g", "-ggdb"]
-        return None
 
     def get_ld(self):
         return self.ld
@@ -54,8 +81,50 @@ class LDWrapper(object):
     def get_flags(self):
         return self.flags
 
+
 class CCWrapper(object):
+    """
+    The compiler wrapper.
+
+    Attributes
+    ----------
+    debug: bool
+      Flag that indicates whenether to compile with debug flags or not
+    test: bool
+      Flag that indicates whenether to compile with tests or not
+    bench: bool
+      Flag that indicates whenether to compile benchmarks or not
+    std_flags: str[]
+      The list of std flags (e.g: -pedantic, -std=c11)
+    warn_flags: str[]
+      The list of warning flags
+    include_flags: str[]
+      The list of include flags
+    optimization_flags: str[]
+      The list of optimization flags
+    debug_flags: str[]
+      The list of debug flags
+    def_flags: str[]
+      The list of flags that define something
+    flags: str[]
+      The list of all flags
+    """
+
     def __init__(self, debug, test, bench):
+        """
+        Initialize the wrapper.
+
+        Parameters
+        ----------
+        debug : bool
+          The "debug" flag. If set, compiler will set the debug flags
+          when compiling.
+        test : bool
+          The "test" flag. If set, compiler will compile the tests.
+        bench : bool
+          The "bench" flag. If set, compiler will compile the benchmarks.
+        """
+
         self.debug = debug
         self.test = test
         self.bench = bench
@@ -108,9 +177,12 @@ class CCWrapper(object):
             "-DUSER_CONF_DIR=\"{}\"".format(USER_CONF_DIR),
             "-DSYS_CONF_DIR=\"{}\"".format(SYS_CONF_DIR),
             "-DDEFAULT_CONF_DIR=\"{}\"".format(DEFAULT_CONF_DIR),
-            "-DDEFAULT_MODULES_SEARCH_PATH=\"{}\"".format(DEFAULT_MODULES_SEARCH_PATH),
-            "-DPARSER_TESTS_RESOURCES_DIR=\"{}\"".format(PARSER_TESTS_RESOURCES_DIR),
-            "-DLEXER_TESTS_RESOURCES_DIR=\"{}\"".format(LEXER_TESTS_RESOURCES_DIR),
+            "-DDEFAULT_MODULES_SEARCH_PATH=\"{}\"".format(
+                DEFAULT_MODULES_SEARCH_PATH),
+            "-DPARSER_TESTS_RESOURCES_DIR=\"{}\"".format(
+                PARSER_TESTS_RESOURCES_DIR),
+            "-DLEXER_TESTS_RESOURCES_DIR=\"{}\"".format(
+                LEXER_TESTS_RESOURCES_DIR),
             "-DFILE_WITH_HELLO_IN_IT_PATH=\"{}\"".format(FILE_WITH_HELLO_IN_IT)
         ]
 
@@ -149,14 +221,47 @@ class CCWrapper(object):
     def get_flags(self):
         return self.flags
 
+
 class Builder(object):
+    """
+    The builder.
+
+    The purpose of a builder is to build a project.
+    """
+
+    """
+    The last build time file path.
+    """
     LAST_BUILD_TIME_FILE = "{}/last_build_time.pickle".format(TMP_ROOT_DIR)
+
+    """
+    The dependencies file path.
+    """
     DEPS_FILE = "{}/deps.pickle".format(RESOURCES_ROOT_DIR)
+
+    # TODO: Move to the linker
+    """
+    Static libraries to link
+    """
     STATIC_LIBS_TO_LINK = [
         "{}/deps/sil/tmp/libsil.a".format(ROOT_DIR)
     ]
 
     def __init__(self, debug, test, bench):
+        """
+        Initialize the builder.
+
+        Parameters
+        ----------
+        debug : bool
+          The "debug" flag. If set, builder will set the debug flags
+          when compiling.
+        test : bool
+          The "test" flag. If set, builder will compile the tests.
+        bench : bool
+          The "bench" flag. If set, builder will compile the benchmarks.
+        """
+
         self.debug = debug
         self.test = test
         self.bench = bench
@@ -164,14 +269,17 @@ class Builder(object):
         self.deps = self.load_deps()
         self.ldwrapper = LDWrapper(debug)
         self.ccwrapper = CCWrapper(debug, test, bench)
-        return None
 
     def load_last_build_time(self):
         """
-            This function returns the object of type
-            "datetime" that represents the last time
-            we built project
+        Return the last time project was built.
+
+        Returns
+        -------
+        datetime.datetime
+          The time since last project build
         """
+
         # If there is no saved file with the last build time
         if not os.path.exists(self.LAST_BUILD_TIME_FILE):
             # Create new file
@@ -187,14 +295,22 @@ class Builder(object):
 
     def save_last_build_time(self, time):
         """
-            This function saves the given build time
-            into the file
+        Save the given build time into the file.
         """
         with open(self.LAST_BUILD_TIME_FILE, "wb") as f:
-            pickle.dump(time, f);
-        return None
+            pickle.dump(time, f)
 
     def load_deps(self):
+        """
+        Load the saved dependency graph and return it as a Python dictionary.
+
+        Returns
+        -------
+        dict
+          The dictionary that represents the dependency graph
+          (src_file_path: [dep1, dep2, ..., depn]).
+        """
+
         if not os.path.exists(self.DEPS_FILE):
             # Create a new file
             f = open(self.DEPS_FILE, "w")
@@ -210,8 +326,14 @@ class Builder(object):
 
     def path_was_changed_after_last_build(self, path):
         """
-            This function returns true if file at the
-            given path was changed after the last compilation
+        Return True if file at the given path was changed
+        after the last compilation
+
+        Returns
+        -------
+        bool
+          True if the given source file was changed after the last compilation.
+          False otherwise.
         """
         try:
             mtime = os.path.getmtime(path)
@@ -222,12 +344,19 @@ class Builder(object):
     @staticmethod
     def parse_dep_generator_output(output):
         """
-            This function parses an output generated
-            by the GCC dependency generator and returns
-            an list of dependency paths
+        Parse an output generated by the GCC dependency generator
+        and return a list of dependency paths.
+
+        Returns
+        -------
+        list:
+          The list containing the paths dependencies (paths of other files)
+          from a given dependency generator output.
         """
-        i = 0
+
         paths = []
+        # For each character in output
+        i = 0
         while (i < len(output)):
             if (output[i] == ":"):
                 # Skip the colon ':'
@@ -235,10 +364,12 @@ class Builder(object):
                 while i < len(output):
                     dep_path = ""
                     while (i < len(output)) and (output[i] != "\\") and (output[i] != " "):
-                        if output[i] != " ": dep_path += output[i]
+                        if output[i] != " ":
+                            dep_path += output[i]
                         i += 1
                     # If path is good
-                    if len(dep_path) > 1: paths.append(dep_path)
+                    if len(dep_path) > 1:
+                        paths.append(dep_path)
                     i += 1
                     # If we seen an line feed character '\n'
                     if (i < len(output)) and (output[i] == "n"):
@@ -247,22 +378,31 @@ class Builder(object):
         return paths
 
     @staticmethod
-    def src_path2obj_path(path):
+    def src_path_to_obj_path(path):
         """
-            This function maps set of source file paths
-            into the set of object file paths
+        Map the given source file path onto the object file path
+
+        Returns
+        -------
+        str
+          The mapped object file
         """
         return path.replace(".c", ".o").replace("src", "tmp")
 
     def src_file_is_up_to_date(self, path):
         """
-            This function returns true if the source
-            file at given path is needed to be recompiled
+        Return true if the source file at given path
+        is need to be recompiled.
+
+        Returns
+        -------
+        bool
+          True if given source file is up-to-date. False otherwise
         """
 
         # If there is no compiled '*.o' file at all,
         # surely we need to recompile it
-        if not os.path.exists(Builder.src_path2obj_path(path)):
+        if not os.path.exists(Builder.src_path_to_obj_path(path)):
             return False
 
         # if path was changed after the last compilation: return false
@@ -270,7 +410,8 @@ class Builder(object):
             return False
 
         # If there is no generated dependencies for this file
-        if not path in self.deps: return False
+        if not path in self.deps:
+            return False
 
         # For each dependency path of a given path:
         for dep_path in self.deps[path]:
@@ -279,10 +420,11 @@ class Builder(object):
                 return False
         return True
 
+    # TODO: Name this function better
     def collect_needed_files(self):
         """
-            This function collects all source/object/dep file paths
-            in the whole project and returns tuple
+        Collect all source/object/dep file paths
+        in the whole project and return tuple
         """
 
         srcs = []
@@ -292,14 +434,21 @@ class Builder(object):
             for f in filenames:
                 if f.endswith(".c"):
                     srcs.append("{}/{}".format(root, f))
-                    if not os.path.exists(tmp_root): os.makedirs(tmp_root)
-                    objs.append("{}/{}".format(tmp_root, f.replace(".c", ".o")))
+                    if not os.path.exists(tmp_root):
+                        os.makedirs(tmp_root)
+                    objs.append(
+                        "{}/{}".format(tmp_root, f.replace(".c", ".o")))
         return srcs, objs
 
     def src_file_gen_deps(self, path):
         """
-            This function generates an list of
-            dependencies of a given '*.c' file
+        Generate a list of dependencies from a given .c file,
+        and return the list of dependencies as the Python list.
+
+        Returns
+        -------
+        list:
+          The list of generated dependencies
         """
 
         # Create the command
@@ -314,6 +463,13 @@ class Builder(object):
         return paths
 
     def gen_deps(self):
+        """
+        Generate dependencies for the project source files.
+
+        This function will generate the file named `self.DEPS_FILE`,
+        and pickle the dependency graph into it.
+        """
+
         srcs, _ = self.collect_needed_files()
         deps = {}
         for src_file in srcs:
@@ -321,12 +477,20 @@ class Builder(object):
 
         with open(self.DEPS_FILE, "wb") as f:
             pickle.dump(deps, f)
-        print("Dependencies was successfuly generated")
-        return None
+        print("Dependencies were successfuly generated")
 
     def compile(self):
         """
-            This function compiles the whole project
+        Compile the whole project.
+
+        Basically, what this function does, is it turns all source
+        files into the object files with the corresponding name.
+
+        Returns
+        -------
+        bool
+          True if anything was changed (if at least one
+          source file was not up-to-date)
         """
 
         is_anything_changed = False
@@ -338,19 +502,26 @@ class Builder(object):
             if not self.src_file_is_up_to_date(srcs[i]):
                 is_anything_changed = True
                 # Print the beautiful message
-                print("{}CC {}{}{}".format(CLR_YELLOW, CLR_GRAY, srcs[i], CLR_RESET))
+                print(
+                    "{}CC {}{}{}".format(CLR_YELLOW, CLR_GRAY, srcs[i], CLR_RESET))
                 # Compile
                 cmd = [self.ccwrapper.get_cc()]
                 cmd += self.ccwrapper.get_flags()
                 cmd += ["-c", "-o", objs[i], srcs[i]]
-                if (subprocess.call(cmd) != 0): return False
+                if (subprocess.call(cmd) != 0):
+                    return False
         return is_anything_changed
 
     def link(self):
         """
-            This function links all the *.o files
-            with some libraries and outputs a single
-            executable
+        Link all the object files with needed libraries
+        and output a single executable.
+
+        Returns
+        -------
+        bool
+          True if linkage was successfull (zero exit code).
+          False otherwise
         """
 
         _, objs = self.collect_needed_files()
@@ -362,47 +533,68 @@ class Builder(object):
         cmd += ["-o", EXEC]
         cmd += objs
         cmd += self.STATIC_LIBS_TO_LINK
-        if (subprocess.call(cmd) != 0): return False
+        if (subprocess.call(cmd) != 0):
+            return False
         return True
 
     def build(self):
-        """
-            This function actually builds the project
-        """
+        """Build the project."""
 
-        clear_screen();
+        # Clear the screen
+        clear_screen()
 
         # Save the build start time
         build_start_time = datetime.datetime.now()
 
-        if not self.compile(): return None
-        if not self.link(): return None
+        # Compile
+        if not self.compile():
+            return
+
+        # Link
+        if not self.link():
+            return
 
         build_end_time = datetime.datetime.now()
         build_time = build_end_time - build_start_time
         print("Build finished in {} ms".format(build_time.microseconds))
         self.last_build_time = build_end_time
         self.save_last_build_time(build_end_time)
-        return None
+
 
 def exec_mk(name):
+    """
+    Execute the given .mk file in the project's makefiles directory.
+
+    Parameters
+    ----------
+    name: str
+      name of the Make file to execute
+    """
     clear_screen()
     subprocess.call(["make", "-f", "{}/{}.mk".format(MAKEFILES_DIR, name)])
     return None
 
+
 def clean():
+    """Clean the project tree."""
     exec_mk("clean")
     return None
 
+
 def install():
+    """Install the project binaries to the system."""
     exec_mk("install")
     return None
 
+
 def uninstall():
+    """Uninstall the project binaries from the system."""
     exec_mk("uninstall")
     return None
 
+
 def prepare_env():
+    """Prepare the environment."""
     os.environ["CLR_YELLOW"] = "\"{}\"".format(CLR_YELLOW)
     os.environ["CLR_GRAY"] = "\"{}\"".format(CLR_GRAY)
     os.environ["CLR_RESET"] = "\"{}\"".format(CLR_RESET)
@@ -413,14 +605,28 @@ def prepare_env():
     os.environ["EXEC"] = EXEC
     return None
 
+
 def cppcheck():
+    """Run the Cppcheck on the source tree."""
     clear_screen()
-    subprocess.call(["cppcheck", "-q", "--enable=all", "--inconclusive", SRC_ROOT_DIR])
+    subprocess.call(
+        ["cppcheck", "-q", "--enable=all", "--inconclusive", SRC_ROOT_DIR])
     return None
 
+
 def memcheck(test):
+    """
+    Run the memory checks for the project executables.
+
+    Parameters
+    ----------
+    test: bool
+      If True, tests would be executed also.
+    """
+
     exec_cmd = EXEC
-    if test: exec_cmd += " -t"
+    if test:
+        exec_cmd += " -t"
     clear_screen()
     subprocess.call([
         "valgrind",
@@ -433,22 +639,34 @@ def memcheck(test):
         exec_cmd])
     return None
 
+
 def clear_screen():
+    """Clear the terminal screen."""
     subprocess.call(["reset"])
     return None
 
+
 def main():
+    """The entry point."""
+
     parser = argparse.ArgumentParser(description="Manage GSh")
     parser.add_argument("-c", "--clean", help="clean", action="store_true")
     parser.add_argument("-i", "--install", help="install", action="store_true")
-    parser.add_argument("-u", "--uninstall", help="uninstall", action="store_true")
+    parser.add_argument(
+        "-u", "--uninstall", help="uninstall", action="store_true")
     parser.add_argument("-b", "--build", help="build", action="store_true")
-    parser.add_argument("-g", "--gen_deps", help="generate dependencies", action="store_true")
-    parser.add_argument("-d", "--debug", help="build in debug mode", action="store_true")
-    parser.add_argument("-t", "--test", help="build with tests", action="store_true")
-    parser.add_argument("-p", "--bench", help="build with benchmarks", action="store_true")
-    parser.add_argument("-k", "--cppcheck", help="run cppcheck on the source code", action="store_true")
-    parser.add_argument("-m", "--memcheck", help="run memcheck", action="store_true")
+    parser.add_argument(
+        "-g", "--gen_deps", help="generate dependencies", action="store_true")
+    parser.add_argument(
+        "-d", "--debug", help="build in debug mode", action="store_true")
+    parser.add_argument(
+        "-t", "--test", help="build with tests", action="store_true")
+    parser.add_argument(
+        "-p", "--bench", help="build with benchmarks", action="store_true")
+    parser.add_argument(
+        "-k", "--cppcheck", help="run cppcheck on the source code", action="store_true")
+    parser.add_argument(
+        "-m", "--memcheck", help="run memcheck", action="store_true")
     args = parser.parse_args()
 
     prepare_env()
