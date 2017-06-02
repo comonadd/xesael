@@ -21,7 +21,7 @@
 /**
  * The prefixes for the error messages.
  * The prefix is selected by indexing by type of the error
- **/
+ */
 static char const* E_PREFIXES[E_TYPES_COUNT] = {"[!] Invalid Error: ",
                                                 "[!] Argument Error: ",
                                                 "[!] System Error: ",
@@ -42,7 +42,7 @@ static char* __err_msg = NULL;
 /**
  * Set the type of the error
  * @type - type of the error
- **/
+ */
 static NoRet __err_set_type(const enum ErrorType type)
 {
   __err_type = type;
@@ -51,7 +51,7 @@ static NoRet __err_set_type(const enum ErrorType type)
 /**
  * Set the error message
  * @msg - message
- **/
+ */
 static NoRet __err_set_msg(char* msg)
 {
   __err_msg = msg;

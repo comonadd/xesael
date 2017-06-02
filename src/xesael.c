@@ -1,9 +1,10 @@
-/* File: taste.c */
+/* File: xesael.c */
 /* Creation Date: 2017-02-01 */
 /* Creator: Dmitry Guzeev <dmitry.guzeev@yahoo.com> */
 /* Description: */
+/* The main entry point */
 
-#include "taste.h"
+#include "xesael.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -22,22 +23,17 @@
 #include "core/object/string/string.h"
 #include "core/vm/execute.h"
 
-/*************/
-/* Constants */
-/*************/
+/**
+ * The prompt.
+ *
+ * The prompt is printed each time user presses ENTER.
+ */
+static const char* __PROMPT = "$>> ";
 
-asdstatic const char* __PROMPT = "$>> ";
-
-/**********************/
-/* Private prototypes */
-/**********************/
-
-static bool __do_repl(void);
-
-/***********/
-/* Helpers */
-/***********/
-
+/**
+ * Start the REPL (Read Eval Print Loop)
+ * @return boolean flag of success
+ */
 static bool __do_repl(void)
 {
   /* Print the MOTD */
@@ -82,11 +78,7 @@ static bool __do_repl(void)
   return true;
 }
 
-/********/
-/* Main */
-/********/
-
-int taste_main(struct Arguments const* args)
+int xesael_main(struct Arguments const* args)
 {
   /* Obvious check */
   DASSERT(args, "");
@@ -108,6 +100,7 @@ int taste_main(struct Arguments const* args)
     }
   }
 
+  /* De-initialize the string objects */
   str_objs_deinit();
 
   /* Succeed */

@@ -18,7 +18,7 @@
  * @E_INTERNAL - internal error, thrown when the error in the actual code
  * @E_COMPILE - compile error, thrown at the compile stage (compiler)
  *  @E_EXEC - execution error, thrown at the execution stage (VM)
- **/
+ */
 enum ErrorType {
   E_OK,
   E_ARG,
