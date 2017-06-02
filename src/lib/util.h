@@ -9,13 +9,9 @@
 
 #define ARR_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 
-char* get_line_from_text(
-    const char* text,
-    const uint64 ln);
+char* get_line_from_text(const char* text, const uint64 ln);
 
-NoRet itoa(
-    int val,
-    char s[32]);
+NoRet itoa(int val, char s[32]);
 
 bool ch_isspace(const char ch);
 

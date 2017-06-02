@@ -6,8 +6,8 @@
 #ifndef TASTE_H
 #define TASTE_H
 
-#include "lib/types.h"
 #include "lib/args.h"
+#include "lib/types.h"
 
 int taste_main(struct Arguments const* args);
 

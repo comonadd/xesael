@@ -15,7 +15,7 @@
 #include "core/vm/env.h"
 
 struct VirtualMachine {
-    struct Object const* registers[256];
+  struct Object const* registers[256];
 };
 
 /*************/

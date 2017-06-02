@@ -9,14 +9,14 @@
 #include "lib/types.h"
 
 struct Arguments {
-    uint64 count;
-    char** args;
+  uint64 count;
+  char** args;
 };
 
 struct ArgumentAction {
-    char s;
-    char* l;
-    bool (*action)(uint8 i, struct Arguments const*);
+  char s;
+  char* l;
+  bool (*action)(uint8 i, struct Arguments const*);
 };
 
 #endif /* ARGS_H */

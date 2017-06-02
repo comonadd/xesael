@@ -10,5 +10,5 @@
 
 struct ASTNode* parse_for_loop_stmt(void)
 {
-    return NULL;
+  return NULL;
 }

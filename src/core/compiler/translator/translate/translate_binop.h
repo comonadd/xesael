@@ -7,8 +7,8 @@
 #ifndef TRANSLATE_BINOP_H
 #define TRANSLATE_BINOP_H
 
-#include "lib/types.h"
 #include "core/compiler/ast/ast_node.h"
+#include "lib/types.h"
 
 bool translate_binop_node(struct ASTNode* node);
 

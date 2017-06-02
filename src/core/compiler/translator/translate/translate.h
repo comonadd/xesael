@@ -9,8 +9,8 @@
 
 #include "lib/types.h"
 
-#include "core/compiler/ast/ast_node.h"
 #include "core/compiler/ast/ast.h"
+#include "core/compiler/ast/ast_node.h"
 #include "core/compiler/translator/translator.h"
 
 bool translate_node(struct Translator* T, struct ASTNode* node);

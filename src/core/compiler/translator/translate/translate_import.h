@@ -7,8 +7,8 @@
 #ifndef TRANSLATE_IMPORT_H
 #define TRANSLATE_IMPORT_H
 
-#include "lib/types.h"
 #include "core/compiler/translator/translator.h"
+#include "lib/types.h"
 
 bool translate_import_node(struct ASTNode* node);
 

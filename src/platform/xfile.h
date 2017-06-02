@@ -18,10 +18,7 @@ typedef int XFile;
    @XFM_R - read-only
    @XFM_W - write-only
 **/
-enum XFileMode {
-    XFM_R,
-    XFM_W
-};
+enum XFileMode { XFM_R, XFM_W };
 
 /**
    $ Description:
@@ -40,12 +37,11 @@ enum XFileMode {
    #   if file exists on given path, it will be truncated to length 0
 **/
 /* TODO: Handle more of possible errors */
-bool xfile_open(
-    XFile* file,
-    const char* file_path,
-    const enum XFileMode file_mode,
-    const bool create_file_if_not_exists,
-    const bool trunc);
+bool xfile_open(XFile* file,
+                const char* file_path,
+                const enum XFileMode file_mode,
+                const bool create_file_if_not_exists,
+                const bool trunc);
 
 /**
    $ Description:
@@ -56,10 +52,9 @@ bool xfile_open(
    @size - file size
 **/
 /* TODO: Handle errors */
-bool xfile_load(
-    XFile* const file,
-    char** const file_content,
-    ByteSize* const size);
+bool xfile_load(XFile* const file,
+                char** const file_content,
+                ByteSize* const size);
 
 /**
    $ Description:
@@ -69,9 +64,7 @@ bool xfile_load(
    @file - file to write to
    @input_s - text to write
 **/
-bool xfile_write(
-    XFile* file,
-    const char* input_s);
+bool xfile_write(XFile* file, const char* input_s);
 
 /**
    $ Description:

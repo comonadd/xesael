@@ -7,8 +7,8 @@
 #ifndef OBJ_OPS_H
 #define OBJ_OPS_H
 
-#include "core/object/ops/unop.h"
 #include "core/object/ops/binop.h"
+#include "core/object/ops/unop.h"
 
 /********************************/
 /* Binary arithmetic operations */
@@ -20,9 +20,11 @@
 #define obj_div(___lop, ___rop) obj_binop_arith(O_BINOP_DIV, (___lop), (___rop))
 #define obj_mod(___lop, ___rop) obj_binop_arith(O_BINOP_MOD, (___lop), (___rop))
 #define obj_pow(___lop, ___rop) obj_binop_arith(O_BINOP_POW, (___lop), (___rop))
-#define obj_band(___lop, ___rop) obj_binop_arith(O_BINOP_BAND, (___lop), (___rop))
+#define obj_band(___lop, ___rop) \
+  obj_binop_arith(O_BINOP_BAND, (___lop), (___rop))
 #define obj_bor(___lop, ___rop) obj_binop_arith(O_BINOP_BOR, (___lop), (___rop))
-#define obj_bxor(___lop, ___rop) obj_binop_arith(O_BINOP_BXOR, (___lop), (___rop))
+#define obj_bxor(___lop, ___rop) \
+  obj_binop_arith(O_BINOP_BXOR, (___lop), (___rop))
 #define obj_ls(___lop, ___rop) obj_binop_arith(O_BINOP_LS, (___lop), (___rop))
 #define obj_rs(___lop, ___rop) obj_binop_arith(O_BINOP_RS, (___lop), (___rop))
 
@@ -48,10 +50,10 @@
 /* Unary operations */
 /********************/
 
-#define obj_neg(___op) obj_unop(O_UNOP_NEG,   (___op))
+#define obj_neg(___op) obj_unop(O_UNOP_NEG, (___op))
 #define obj_lnot(___op) obj_unop(O_UNOP_LNOT, (___op))
 #define obj_bnot(___op) obj_unop(O_UNOP_BNOT, (___op))
-#define obj_len(___op) obj_unop(O_UNOP_LEN,   (___op))
+#define obj_len(___op) obj_unop(O_UNOP_LEN, (___op))
 #define obj_incr(___op) obj_unop(O_UNOP_INCR, (___op))
 #define obj_decr(___op) obj_unop(O_UNOP_DECR, (___op))
 

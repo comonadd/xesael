@@ -15,8 +15,8 @@
 #include "lib/types.h"
 #include "lib/xvec_stream.h"
 
-#include "core/compiler/compiler.h"
 #include "core/compiler/ast/ast.h"
+#include "core/compiler/compiler.h"
 
 /**
    @stream - stream of tokens
@@ -24,9 +24,9 @@
    @ast - output
 **/
 struct Parser {
-    struct XVectorStream stream;
-    LineNumber ln;
-    struct AST* ast;
+  struct XVectorStream stream;
+  LineNumber ln;
+  struct AST* ast;
 };
 
 /********************/
@@ -39,13 +39,17 @@ extern struct Parser parser;
 /* Methods */
 /***********/
 
-#define parser_err_set_invalid_syntax() compiler_err_set(parser_get_ln(), "invalid syntax")
+#define parser_err_set_invalid_syntax() \
+  compiler_err_set(parser_get_ln(), "invalid syntax")
 
-#define parser_read() CAST(xvec_stream_read(&parser.stream), struct Token const*)
+#define parser_read() \
+  CAST(xvec_stream_read(&parser.stream), struct Token const*)
 #define parser_skip() xvec_stream_skip(&parser.stream)
 #define parser_get() CAST(xvec_stream_get(&parser.stream), struct Token const*)
-#define parser_lookahead() CAST(xvec_stream_lookahead(&parser.stream), struct Token const*)
-#define parser_lookback() CAST(xvec_stream_lookback(&parser.stream), struct Token const*)
+#define parser_lookahead() \
+  CAST(xvec_stream_lookahead(&parser.stream), struct Token const*)
+#define parser_lookback() \
+  CAST(xvec_stream_lookback(&parser.stream), struct Token const*)
 
 #define parser_incr_ln() (++parser.ln)
 #define parser_get_ln() parser.ln
@@ -54,15 +58,17 @@ extern struct Parser parser;
 #define parser_eq(___t) (parser_get()->type == (___t))
 #define parser_neq(___t) (parser_get()->type != (___t))
 
-#define parser_stream_init(___toks) do {                                \
-        xvec_stream_init(&parser.stream, (___toks), &RTOKS[TOK_INVALID]); \
-    } while (0)
-#define parser_init(___toks) do {               \
-        parser_stream_init((___toks));          \
-        parser.ln = 1;                          \
-        parser.ast = ast_new();                 \
-        err_reset();                            \
-    } while (0)
+#define parser_stream_init(___toks)                                   \
+  do {                                                                \
+    xvec_stream_init(&parser.stream, (___toks), &RTOKS[TOK_INVALID]); \
+  } while (0)
+#define parser_init(___toks)       \
+  do {                             \
+    parser_stream_init((___toks)); \
+    parser.ln  = 1;                \
+    parser.ast = ast_new();        \
+    err_reset();                   \
+  } while (0)
 
 /**
    $ Description:

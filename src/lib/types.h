@@ -6,10 +6,10 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <stddef.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 typedef int64_t int64;
 typedef int32_t int32;

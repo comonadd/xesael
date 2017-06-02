@@ -7,8 +7,8 @@
 #ifndef OBJ_NOTHING_H
 #define OBJ_NOTHING_H
 
-#include "lib/types.h"
 #include "core/object/object.h"
+#include "lib/types.h"
 
 extern const struct Object OBJ_NOTHING;
 

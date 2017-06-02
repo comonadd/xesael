@@ -1,2 +1,1 @@
-##Description
-This directory contains the GSh bytecode optimizer source code
+##Description This directory contains the GSh bytecode optimizer source code

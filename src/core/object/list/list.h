@@ -7,5 +7,4 @@
 #define GSH_OBJ_LIST_H
 
 
-
 #endif /* GSH_OBJ_LIST_H */

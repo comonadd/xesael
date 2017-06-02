@@ -35,16 +35,13 @@ NoRet str_objs_deinit(void);
 /* Methods */
 /***********/
 
-struct Object* obj_str_new(
-    const char* val);
+struct Object* obj_str_new(const char* val);
 
 NoRet obj_str_delete(struct Object* obj);
 
-bool obj_str_is_true(
-    const struct Object* obj);
+bool obj_str_is_true(const struct Object* obj);
 
-struct Object* obj_str_unop(
-    const enum ObjectUnOpType type,
-    const struct Object* obj);
+struct Object* obj_str_unop(const enum ObjectUnOpType type,
+                            const struct Object* obj);
 
 #endif /* OBJ_STR_H */

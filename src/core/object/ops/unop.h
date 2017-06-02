@@ -10,13 +10,13 @@
 #include "core/object/object.h"
 
 enum ObjectUnOpType {
-    O_UNOP_NEG,
-    O_UNOP_LNOT,
-    O_UNOP_BNOT,
-    O_UNOP_LEN,
-    O_UNOP_INCR,
-    O_UNOP_DECR,
-    O_UNOP_COUNT
+  O_UNOP_NEG,
+  O_UNOP_LNOT,
+  O_UNOP_BNOT,
+  O_UNOP_LEN,
+  O_UNOP_INCR,
+  O_UNOP_DECR,
+  O_UNOP_COUNT
 };
 
 /***********/
@@ -30,8 +30,7 @@ enum ObjectUnOpType {
 /* Main */
 /********/
 
-struct Object* obj_unop(
-    const enum ObjectUnOpType type,
-    struct Object const* obj);
+struct Object* obj_unop(const enum ObjectUnOpType type,
+                        struct Object const* obj);
 
 #endif /* OBJ_UNOP_H */

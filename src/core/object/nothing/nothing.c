@@ -10,11 +10,9 @@
 
 #include "core/object/object.h"
 
-const struct Object OBJ_NOTHING = {
-    .ref_count = 1
-};
+const struct Object OBJ_NOTHING = {.ref_count = 1};
 
 bool gsh_obj_is_nothing(const struct Object* obj)
 {
-    return obj == &OBJ_NOTHING;
+  return obj == &OBJ_NOTHING;
 }

@@ -13,11 +13,8 @@
 /* Main */
 /********/
 
-struct ByteCode* compile(
-    char const* src_name,
-    char const* text);
+struct ByteCode* compile(char const* src_name, char const* text);
 
-struct ByteCode* compile_file(
-    char const* path);
+struct ByteCode* compile_file(char const* path);
 
 #endif /* COMPILE_H */

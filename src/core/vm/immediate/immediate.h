@@ -8,8 +8,8 @@
 #ifndef VM_IMMEDIATE_H
 #define VM_IMMEDIATE_H
 
-#include "lib/types.h"
 #include "core/object/object.h"
+#include "lib/types.h"
 
 typedef uint64 ImmediateID;
 
@@ -18,8 +18,8 @@ typedef uint64 ImmediateID;
    @obj - object that immediate is bound to
 **/
 struct Immediate {
-    ImmediateID id;
-    struct Object* obj;
+  ImmediateID id;
+  struct Object* obj;
 };
 
 /**
@@ -32,11 +32,9 @@ struct Immediate {
    #   (error code is set appropriately)
    @obj - object that immediate is bound to
 **/
-struct Immediate* immediate_new(
-    struct Object* obj);
+struct Immediate* immediate_new(struct Object* obj);
 
-NoRet immediate_delete(
-    struct Immediate* immediate);
+NoRet immediate_delete(struct Immediate* immediate);
 
 NoRet immediate_free_f(void* ptr);
 

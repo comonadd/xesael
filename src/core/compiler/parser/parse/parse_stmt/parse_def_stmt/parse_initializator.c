@@ -10,5 +10,5 @@
 
 struct ASTNode* parse_initializator(void)
 {
-    return parse_expr();
+  return parse_expr();
 }

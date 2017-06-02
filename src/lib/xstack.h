@@ -13,17 +13,15 @@
    @elems - array of elements
 **/
 struct XStack {
-    uint64 capacity;
-    uint64 size;
-    void** elems;
+  uint64 capacity;
+  uint64 size;
+  void** elems;
 };
 
 NoRet xstack_init(struct XStack* s);
 NoRet xstack_deinit(struct XStack* s);
 void* xstack_pop(struct XStack* s);
-NoRet xstack_push(
-    struct XStack* s,
-    void* item);
+NoRet xstack_push(struct XStack* s, void* item);
 void* xstack_top(struct XStack* s);
 
 #endif /* XSTACK_H */

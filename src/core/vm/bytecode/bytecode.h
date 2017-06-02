@@ -7,9 +7,9 @@
 #ifndef VM_BYTECODE_H
 #define VM_BYTECODE_H
 
-#include "lib/types.h"
-#include "lib/macros.h"
 #include "lib/dict.h"
+#include "lib/macros.h"
+#include "lib/types.h"
 #include "lib/xvec.h"
 
 #include "core/vm/instruction/instruction.h"
@@ -24,11 +24,11 @@
    @raw - the actual code of a program
 **/
 struct ByteCode {
-    struct Object* const* immediates;
-    uint64 immediates_count;
-    Instruction* instructions;
-    uint64 instructions_count;
-    uint64 instructions_capacity;
+  struct Object* const* immediates;
+  uint64 immediates_count;
+  Instruction* instructions;
+  uint64 instructions_count;
+  uint64 instructions_capacity;
 };
 
 /********************/
@@ -43,18 +43,13 @@ struct ByteCode* bytecode_new(void);
 
 NoRet bytecode_delete(struct ByteCode* bc);
 
-Instruction bytecode_get_instr(
-    const struct ByteCode* bc,
-    const uint64 i);
+Instruction bytecode_get_instr(const struct ByteCode* bc, const uint64 i);
 
-bool bytecode_append_instr(
-    struct ByteCode* bc,
-    const Instruction instr);
+bool bytecode_append_instr(struct ByteCode* bc, const Instruction instr);
 
-bool bytecode_insert_instr(
-    struct ByteCode* bc,
-    const uint64 pos,
-    const Instruction instr);
+bool bytecode_insert_instr(struct ByteCode* bc,
+                           const uint64 pos,
+                           const Instruction instr);
 
 NoRet bytecode_print(struct ByteCode* bc);
 

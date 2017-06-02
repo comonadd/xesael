@@ -7,7 +7,7 @@
 #include <termios.h>
 
 #if DEBUG
-#  include <mcheck.h>
+#include <mcheck.h>
 #endif /* DEBUG */
 
 #include "lib/args.h"
@@ -17,18 +17,16 @@
 static struct termios saved_term_opts;
 static struct termios term_opts;
 
-int main(
-    int argc,
-    char** argv)
+int main(int argc, char** argv)
 {
 #if DEBUG
-    mtrace();
+  mtrace();
 #endif /* DEBUG */
-    saved_term_opts = term_opts;
+  saved_term_opts = term_opts;
 
-    struct Arguments args;
-    args.count = argc;
-    args.args = argv;
-    taste_main(&args);
-    return 0;
+  struct Arguments args;
+  args.count = argc;
+  args.args  = argv;
+  taste_main(&args);
+  return 0;
 }

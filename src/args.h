@@ -6,9 +6,9 @@
 #ifndef TASTE_ARGS_H
 #define TASTE_ARGS_H
 
+#include "lib/args.h"
 #include "lib/types.h"
 #include "lib/xmalloc.h"
-#include "lib/args.h"
 
 #define INCLUDES_MAX_COUNT 64
 #define DEFAULT_OUTPUT_PATH "output.ttc"
@@ -20,17 +20,16 @@
    @includes - the array that represents a names to include (import at start)
 **/
 struct TasteArgumentsInfo {
-    uint8 opt_lvl;
-    char const* path;
-    char const* output_path;
-    char** includes;
+  uint8 opt_lvl;
+  char const* path;
+  char const* output_path;
+  char** includes;
 };
 
 /********/
 /* Main */
 /********/
 
-struct TasteArgumentsInfo* taste_parse_args(
-    struct Arguments const* args);
+struct TasteArgumentsInfo* taste_parse_args(struct Arguments const* args);
 
 #endif /* TASTE_ARGS_H */

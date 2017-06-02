@@ -15,10 +15,10 @@
    @elems - elements of a vector
 **/
 struct XVector {
-    uint64 capacity;
-    uint64 size;
-    void** elems;
-    NoRet (*elem_free_f)(void* elem);
+  uint64 capacity;
+  uint64 size;
+  void** elems;
+  NoRet (*elem_free_f)(void* elem);
 };
 
 /***********/
@@ -31,9 +31,7 @@ struct XVector {
    $ Input: not initialized vector
    $ Output: initialized vector that is ready for work
 **/
-bool xvec_init(
-    struct XVector* v,
-    NoRet (*elem_free_f)(void* elem));
+bool xvec_init(struct XVector* v, NoRet (*elem_free_f)(void* elem));
 
 /**
    $ Description:
@@ -45,7 +43,8 @@ struct XVector* xvec_new(NoRet (*elem_free_f)(void* elem));
 
 /**
    $ Description:
-   #   This function de-initializes the vector and frees all memory allocated for it
+   #   This function de-initializes the vector and frees all memory allocated
+for it
    $ Input: initialized vector
    $ Output: freed memory for the vector
 **/
@@ -68,10 +67,7 @@ NoRet xvec_delete(struct XVector* v);
    @index - position to set to in the vector
    @item - pointer to a new element
 **/
-bool xvec_set(
-    struct XVector* v,
-    const uint64 index,
-    void* item);
+bool xvec_set(struct XVector* v, const uint64 index, void* item);
 
 /**
    $ Description:
@@ -80,9 +76,7 @@ bool xvec_set(
    $ Output: new item will be at the end of the vector
    @item - item to append
 **/
-NoRet xvec_append(
-    struct XVector* v,
-    void* item);
+NoRet xvec_append(struct XVector* v, void* item);
 
 /**
    $ Description:
@@ -92,9 +86,7 @@ NoRet xvec_append(
    #         NULL if not
    @index - position at which value is stored
 **/
-void* xvec_get(
-    const struct XVector* v,
-    const uint64 index);
+void* xvec_get(const struct XVector* v, const uint64 index);
 
 /**
    $ Description:

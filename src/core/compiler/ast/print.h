@@ -8,14 +8,13 @@
 #ifndef GSH_AST_PRINT_H
 #define GSH_AST_PRINT_H
 
-#  if DEBUG
-#  include "lib/types.h"
-#  include "core/compiler/ast/ast.h"
-#  include "core/compiler/ast/ast_node.h"
+#if DEBUG
+#include "core/compiler/ast/ast.h"
+#include "core/compiler/ast/ast_node.h"
+#include "lib/types.h"
 NoRet ast_node_print(struct ASTNode const* node);
-NoRet ast_nodes_print(
-    struct XVector const* nodes);
+NoRet ast_nodes_print(struct XVector const* nodes);
 NoRet ast_print(struct AST const* ast);
-#  endif /* DEBUG */
+#endif /* DEBUG */
 
 #endif /* GSH_AST_PRINT_H */

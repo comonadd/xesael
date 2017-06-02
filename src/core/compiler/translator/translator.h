@@ -9,11 +9,11 @@
 
 #include "lib/types.h"
 
-#include "core/vm/bytecode/bytecode.h"
-#include "core/vm/register.h"
 #include "core/compiler/ast/ast.h"
 #include "core/compiler/sym/symtable.h"
+#include "core/vm/bytecode/bytecode.h"
 #include "core/vm/immediate/immediate_list.h"
+#include "core/vm/register.h"
 
 /**
    @st - symbol table
@@ -22,10 +22,10 @@
    @bc - output bytecode
 **/
 struct Translator {
-    struct SymbolTable* st;
-    ImmediateList il;
-    RegisterID curr_rid;
-    struct ByteCode* buf;
+  struct SymbolTable* st;
+  ImmediateList il;
+  RegisterID curr_rid;
+  struct ByteCode* buf;
 };
 
 /***********/
@@ -46,31 +46,24 @@ InstructionPosition translator_reserve_ip(struct Translator* T);
 
 NoRet translator_append_instr(struct Translator* T, const Instruction i);
 
-NoRet translator_insert_instr(
-    struct Translator* T,
-    const InstructionPosition pos,
-    const Instruction i);
+NoRet translator_insert_instr(struct Translator* T,
+                              const InstructionPosition pos,
+                              const Instruction i);
 
 RegisterID translator_get_free_reg(struct Translator* T);
 
 NoRet translator_free_regs(struct Translator* T);
 
-bool translator_st_insert(
-    struct Translator* T,
-    struct Symbol const* sym);
+bool translator_st_insert(struct Translator* T, struct Symbol const* sym);
 
-struct Symbol* translator_st_lookup(
-    struct Translator* T,
-    char const* name);
+struct Symbol* translator_st_lookup(struct Translator* T, char const* name);
 
-struct Immediate* translator_immediate_insert(
-    struct Translator* T,
-    char const* name,
-    struct Object* obj);
+struct Immediate* translator_immediate_insert(struct Translator* T,
+                                              char const* name,
+                                              struct Object* obj);
 
-struct Immediate* translator_immediate_lookup(
-    struct Translator* T,
-    char const* name);
+struct Immediate* translator_immediate_lookup(struct Translator* T,
+                                              char const* name);
 
 NoRet translator_enter_scope(struct Translator* T);
 

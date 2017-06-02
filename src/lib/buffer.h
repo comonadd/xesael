@@ -18,9 +18,9 @@
    @val - the pointer to the actual data
 **/
 struct Buffer {
-    uint64 len;
-    uint64 capacity;
-    char* val;
+  uint64 len;
+  uint64 capacity;
+  char* val;
 };
 
 /***********/
@@ -35,18 +35,10 @@ NoRet buf_clear(struct Buffer* buf);
 
 const char* buf_get_val(struct Buffer* buf);
 
-bool buf_append_ch(
-    struct Buffer* buf,
-    const char ch);
+bool buf_append_ch(struct Buffer* buf, const char ch);
 
-bool buf_append(
-    struct Buffer* buf,
-    const char* str,
-    const uint64 len);
+bool buf_append(struct Buffer* buf, const char* str, const uint64 len);
 
-bool buf_set(
-    struct Buffer* buf,
-    const char* str,
-    const uint64 len);
+bool buf_set(struct Buffer* buf, const char* str, const uint64 len);
 
 #endif /* BUFFER_H */

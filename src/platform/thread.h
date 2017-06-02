@@ -7,12 +7,10 @@
 #define THREAD_H
 
 struct Thread {
-
 };
 
-int thread_create(
-    struct Thread* thread,
+int thread_create(struct Thread* thread,
 
-    )
+                  )
 
 #endif /* THREAD_H */

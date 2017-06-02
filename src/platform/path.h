@@ -15,10 +15,7 @@
    @PAM_USER_ONLY - file can be accessed only by user that created it
    @PAM_ALL - file can be accessed by all users on system
 **/
-enum PathAccessMode {
-    PAM_USER_ONLY,
-    PAM_ALL
-};
+enum PathAccessMode { PAM_USER_ONLY, PAM_ALL };
 
 /*************/
 /* Constants */
@@ -38,9 +35,7 @@ extern const char PLATFORM_PATH_SEPARATOR_CH;
    @p1 - first path
    @p2 - second path
 **/
-char* path_concat(
-    char const* p1,
-    char const* p2);
+char* path_concat(char const* p1, char const* p2);
 
 /**
    $ Description:
@@ -48,20 +43,16 @@ char* path_concat(
    $ Input: path to get base from
    $ Output: base of a given path
 **/
-char* path_get_base(
-    char const* path);
+char* path_get_base(char const* path);
 
 /**
    $ Description:
    #   This function gives the basename of a given
    #   path
 **/
-char* path_get_basename(
-    char const* path);
+char* path_get_basename(char const* path);
 
-char* path_concat_with_ext(
-    char const* path,
-    char const* ext);
+char* path_concat_with_ext(char const* path, char const* ext);
 /**
    $ Description:
    #   This function returns true if thing at given path is a directory
@@ -69,8 +60,7 @@ char* path_concat_with_ext(
    $ Output: true or false
    @path - path to check
 **/
-bool path_is_dir(
-    char const* path);
+bool path_is_dir(char const* path);
 
 /**
    $ Description:
@@ -79,8 +69,7 @@ bool path_is_dir(
    $ Output: true or false
    @dir_path - file/directory path
 **/
-bool path_exists(
-    char const* path);
+bool path_exists(char const* path);
 
 /**
    $ Description:
@@ -90,10 +79,9 @@ bool path_exists(
    @path - path of a new file/directory
    @access_mode - access mode in which create a new file/directory
 **/
-bool path_create(
-    char const* path,
-    const enum PathAccessMode access_mode,
-    const bool dir);
+bool path_create(char const* path,
+                 const enum PathAccessMode access_mode,
+                 const bool dir);
 
 /**
    $ Description:
@@ -102,8 +90,6 @@ bool path_create(
    $ Output: file/directory access mode
    @dir_path - path of a file/directory
 **/
-bool get_path_access_mode(
-    const char* path,
-    enum PathAccessMode* mode);
+bool get_path_access_mode(const char* path, enum PathAccessMode* mode);
 
 #endif /* PLATFORM_PATH_H */
