@@ -1,4 +1,4 @@
-k  # !/usr/bin/python
+#!/usr/bin/env python
 
 # File: manage.py
 # Creation date: 2017-02-05
