@@ -4,8 +4,8 @@
 /* Description: */
 /* The object */
 
-#ifndef OBJ_H
-#define OBJ_H
+#ifndef XESAEL_OBJ_INC
+#define XESAEL_OBJ_INC
 
 #include "err.h"
 
@@ -135,4 +135,4 @@ NoRet obj_xvec_deinit(struct XVector* v);
 
 NoRet obj_xvec_delete(struct XVector* v);
 
-#endif /* OBJ_H */
+#endif /* XESAEL_OBJ_INC */
