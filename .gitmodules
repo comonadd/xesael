@@ -1,0 +1,3 @@
+[submodule "deps/sil"]
+	path = deps/sil
+	url = https://github.com/wrongway4you/sil.git
