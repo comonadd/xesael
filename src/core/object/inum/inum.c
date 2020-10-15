@@ -9,18 +9,16 @@
 
 #include <math.h>
 
+#include "core/object/bool/bool.h"
+#include "core/object/object.h"
+#include "core/object/ops/unop.h"
 #include "err.h"
-#include "log.h"
-
 #include "lib/macros.h"
 #include "lib/str.h"
 #include "lib/types.h"
 #include "lib/util.h"
 #include "lib/xmalloc.h"
-
-#include "core/object/bool/bool.h"
-#include "core/object/object.h"
-#include "core/object/ops/unop.h"
+#include "log.h"
 
 /***********/
 /* Methods */
@@ -31,7 +29,7 @@ struct Object* obj_inum_new(const int64 val)
   struct Object* obj = obj_new(OBJT_INUM);
   if (!obj) return NULL;
   obj->data.inum.val = val;
-  LOG_DEBUG("creating the INum object at address \"%p\" with value \"%ld\"",
+  LOG_DEBUG("creating the INum object at address \"%p\" with value \"%lld\"",
             CAST(obj, void*),
             val);
   return obj;
@@ -40,7 +38,7 @@ struct Object* obj_inum_new(const int64 val)
 NoRet obj_inum_delete(struct Object* obj)
 {
   DASSERT(obj, "");
-  LOG_DEBUG("removing the INum object at address \"%p\" with value \"%ld\"",
+  LOG_DEBUG("removing the INum object at address \"%p\" with value \"%lld\"",
             CAST(obj, void*),
             obj->data.inum.val);
   xfree(obj);

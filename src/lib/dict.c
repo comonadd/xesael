@@ -243,9 +243,7 @@ NoRet dict_init(struct Dictionary* dict,
 NoRet dict_deinit(struct Dictionary* dict)
 {
   for (uint32 i = 0; i < dict->size; ++i) {
-    if (dict->slots[i].size > 0) {
-      dict_slot_deinit(dict, &dict->slots[i]);
-    }
+    if (dict->slots[i].size > 0) { dict_slot_deinit(dict, &dict->slots[i]); }
   }
   xfree(dict->slots);
 }
@@ -385,7 +383,7 @@ static NoRet dict_bench_insert(void)
   DICT_BENCH_START();
   for (uint64 i = 0; i < ITER_COUNT; ++i)
     assert(dict_insert(&dict, randstring(KEY_LEN), &i));
-  DICT_BENCH_END("Insert %lu entries with the random keys", ITER_COUNT);
+  DICT_BENCH_END("Insert %llu entries with the random keys", ITER_COUNT);
   DICT_BENCH_DEINIT();
 }
 
@@ -395,7 +393,7 @@ static NoRet dict_bench_replace(void)
   DICT_BENCH_START();
   for (uint64 i = 0; i < ITER_COUNT; ++i)
     dict_replace(&dict, randstring(KEY_LEN), &i);
-  DICT_BENCH_END("Replace %lu entries with the random keys", ITER_COUNT);
+  DICT_BENCH_END("Replace %llu entries with the random keys", ITER_COUNT);
   DICT_BENCH_DEINIT();
 }
 
@@ -408,7 +406,7 @@ static NoRet dict_bench_find(void)
 
   DICT_BENCH_START();
   for (uint64 i = 0; i < ITER_COUNT; ++i) dict_find(&dict, randstring(KEY_LEN));
-  DICT_BENCH_END("Find %lu entries with the random keys", ITER_COUNT);
+  DICT_BENCH_END("Find %llu entries with the random keys", ITER_COUNT);
 
   DICT_BENCH_DEINIT();
 }

@@ -6,11 +6,10 @@
 
 #include "core/compiler/translator/translate/translate_import.h"
 
+#include "core/compiler/translator/translator.h"
 #include "lib/types.h"
 
-#include "core/compiler/translator/translator.h"
-
-bool translate_import_node(struct ASTNode* node)
+bool translate_import_node(struct Translator* T, struct ASTNode* node)
 {
   /* Retreive the name to import */
   struct Object* name_obj = node->data.import.val;
@@ -18,11 +17,11 @@ bool translate_import_node(struct ASTNode* node)
 
   /* Append a import name immediate */
   ImmediateID name_immediate_id;
-  name_immediate_id = translator_immediate_insert(name, name_obj)->id;
+  name_immediate_id = translator_immediate_insert(T, name, name_obj)->id;
 
   /* Emit the new IMPORT instruction */
   const Instruction instr = instr_import_new(name_immediate_id);
-  translator_append_instr(instr);
+  translator_append_instr(T, instr);
 
   /* Succeed */
   return true;

@@ -22,6 +22,7 @@
 #include "core/object/ops/binop.h"
 #include "core/object/ops/unop.h"
 #include "core/object/string/string.h"
+#include "err.h"
 
 /*************/
 /* Constants */

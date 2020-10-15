@@ -7,13 +7,12 @@
 #ifndef TRANSLATOR_H
 #define TRANSLATOR_H
 
-#include "lib/types.h"
-
 #include "core/compiler/ast/ast.h"
 #include "core/compiler/sym/symtable.h"
 #include "core/vm/bytecode/bytecode.h"
 #include "core/vm/immediate/immediate_list.h"
 #include "core/vm/register.h"
+#include "lib/types.h"
 
 /**
    @st - symbol table
@@ -54,12 +53,12 @@ RegisterID translator_get_free_reg(struct Translator* T);
 
 NoRet translator_free_regs(struct Translator* T);
 
-bool translator_st_insert(struct Translator* T, struct Symbol const* sym);
+bool translator_st_insert(struct Translator* T, struct Symbol* sym);
 
 struct Symbol* translator_st_lookup(struct Translator* T, char const* name);
 
 struct Immediate* translator_immediate_insert(struct Translator* T,
-                                              char const* name,
+                                              char* name,
                                               struct Object* obj);
 
 struct Immediate* translator_immediate_lookup(struct Translator* T,

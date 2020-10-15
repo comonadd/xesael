@@ -106,15 +106,15 @@ NoRet bytecode_print(struct ByteCode* bc)
   printf("\tImmediates:\n");
   printf("\t{\n");
   if (bc->immediates) {
-    printf("\t\tCount: %lu\n", bc->immediates_count);
+    printf("\t\tCount: %llu\n", bc->immediates_count);
     for (uint64 i = 0; i < bc->immediates_count; ++i) {
-      printf("\t\t[%lu] %-8s", i, " ");
+      printf("\t\t[%llu] %-8s", i, " ");
       struct Object* obj = bc->immediates[i];
       obj_print(obj);
       printf("%-4s", " ");
 
       switch (obj->type) {
-        case OBJT_INUM: printf("\"%li\"\n", obj->data.inum.val); break;
+        case OBJT_INUM: printf("\"%lli\"\n", obj->data.inum.val); break;
 
         case OBJT_DNUM: printf("\"%fl\"\n", obj->data.dnum.val); break;
 
@@ -131,12 +131,12 @@ NoRet bytecode_print(struct ByteCode* bc)
   /* Print the instructions */
   printf("\tInstructions:\n");
   printf("\t{\n");
-  printf("\t\tCount: %lu\n", bc->instructions_count);
+  printf("\t\tCount: %llu\n", bc->instructions_count);
   printf("\t\tSize of one instruction (in bytes): %lu\n", sizeof(Instruction));
   for (uint64 i = 0; i < bc->instructions_count; ++i) {
     Instruction instr        = bytecode_get_instr(bc, i);
     char const* instr_code_s = instr_code2str(I_OP_GET(instr));
-    printf("\t\t[%lu] %-8s %-8s %d  %d  %d\n",
+    printf("\t\t[%llu] %-8s %-8s %d  %d  %d\n",
            i,
            " ",
            instr_code_s,

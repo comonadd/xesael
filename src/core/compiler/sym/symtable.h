@@ -42,7 +42,7 @@ struct SymbolTable* st_new(void);
 
 NoRet st_delete(struct SymbolTable* st);
 
-bool st_insert(struct SymbolTable* st, struct Symbol const* sym);
+bool st_insert(struct SymbolTable* st, struct Symbol* sym);
 
 struct Symbol* st_lookup(struct SymbolTable const* st, char const* name);
 

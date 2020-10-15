@@ -66,7 +66,7 @@ static NoRet test_xvec_stream_read(void)
   struct XVectorStream s;
   xvec_stream_init(&s, &vec, NULL);
 
-  int read = NULL;
+  int read = 0;
   read     = *(int*)xvec_stream_read(&s);
   assert(read == *a);
   read = *(int*)xvec_stream_read(&s);

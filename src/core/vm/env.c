@@ -4,6 +4,7 @@
 /* Description: */
 
 #include "core/vm/env.h"
+#include "lib/macros.h"
 #include "core/object/object.h"
 
 #define ENV_VARS_DICT_SIZE 128
@@ -11,7 +12,7 @@
 struct Environment* env_new(void)
 {
   struct Environment* env = xmalloc(sizeof(*env));
-  dict_init(&env->vars, ENV_VARS_DICT_SIZE, str_hash_f, NULL, NULL, obj_free_f);
+  dict_init(&env->vars, ENV_VARS_DICT_SIZE, str_hash_f, NULL, NULL, CAST(obj_free_f, NoRet (*)(void*)));
   env->prev = NULL;
   return env;
 }

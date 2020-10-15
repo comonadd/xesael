@@ -10,6 +10,6 @@
 #include "core/compiler/translator/translator.h"
 #include "lib/types.h"
 
-bool translate_import_node(struct ASTNode* node);
+bool translate_import_node(struct Translator* T, struct ASTNode* node);
 
 #endif /* TRANSLATE_IMPORT_H */

@@ -7,10 +7,10 @@
 #ifndef TRANSLATE_ENUM_DEF_H
 #define TRANSLATE_ENUM_DEF_H
 
+#include "core/compiler/ast/ast_node.h"
+#include "core/compiler/translator/translator.h"
 #include "lib/types.h"
 
-#include "core/compiler/ast/ast_node.h"
-
-bool translate_enum_def_node(struct ASTNode* node);
+bool translate_enum_def_node(struct Translator* T, struct ASTNode* node);
 
 #endif /* TRANSLATE_ENUM_DEF_H */

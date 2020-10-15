@@ -8,8 +8,9 @@
 #define TRANSLATE_BINOP_H
 
 #include "core/compiler/ast/ast_node.h"
+#include "core/compiler/translator/translator.h"
 #include "lib/types.h"
 
-bool translate_binop_node(struct ASTNode* node);
+bool translate_binop_node(struct Translator* T, struct ASTNode* node);
 
 #endif /* TRANSLATE_BINOP_H */

@@ -10,8 +10,6 @@
 #ifndef XMALLOC_H
 #define XMALLOC_H
 
-#include <stdlib.h>
-
 #include "types.h"
 
 extern void* xmalloc(ByteSize size);

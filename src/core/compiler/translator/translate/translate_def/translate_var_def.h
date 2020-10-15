@@ -8,8 +8,9 @@
 #define TRANSLATE_VAR_DEF_NODE_H
 
 #include "core/compiler/ast/ast_node.h"
+#include "core/compiler/translator/translator.h"
 #include "lib/types.h"
 
-bool translate_var_def_node(struct ASTNode* node);
+bool translate_var_def_node(struct Translator* T, struct ASTNode* node);
 
 #endif /* TRANSLATE_VAR_DEF_NODE_H */

@@ -18,7 +18,7 @@ NoRet immediate_list_init(ImmediateList* list);
 NoRet immediate_list_deinit(ImmediateList* list);
 
 struct Immediate* immediate_list_insert(ImmediateList* list,
-                                        char const* name,
+                                        char* name,
                                         struct Object* obj);
 
 struct Immediate* immediate_list_lookup(ImmediateList const* list,

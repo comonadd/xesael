@@ -14,16 +14,16 @@
 #include "core/compiler/compiler.h"
 #include "core/compiler/translator/translator.h"
 
-bool translate_var_node(struct ASTNode* node)
+bool translate_var_node(struct Translator* T, struct ASTNode* node)
 {
   /* Assign the register ID of a node */
-  node->rid = translator_get_free_reg();
+  node->rid = translator_get_free_reg(T);
 
   /* Retreive the name of a name */
   char* name = node->data.var.name->data.str.val;
 
   /* Search for the name symbol */
-  struct Symbol* sym = translator_st_lookup(name);
+  struct Symbol* sym = translator_st_lookup(T, name);
 
   /* If we failed to found such a symbol */
   if (!sym || (sym->type != SYM_VAR)) {
@@ -39,7 +39,7 @@ bool translate_var_node(struct ASTNode* node)
   instr = instr_varload_new(sym->data.var_name_immediate_id, node->rid);
 
   /* Append it */
-  translator_append_instr(instr);
+  translator_append_instr(T, instr);
 
   /* Succeed */
   return true;

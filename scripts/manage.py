@@ -1,11 +1,5 @@
 #!/usr/bin/env python
 
-# File: manage.py
-# Creation date: 2017-02-05
-# Creator: Dmitry Guzeev <dmitry.guzeev@yahoo.com>
-# Description:
-#  The project management script
-
 import os
 import sys
 import argparse
@@ -13,6 +7,7 @@ import datetime
 import subprocess
 import platform
 import pickle
+from pathlib import Path
 
 # Colors for beautiful output
 CLR_YELLOW = "\x1b[38;5;226m"
@@ -24,11 +19,7 @@ VERSION_MAJOR = "0"
 VERSION_MINOR = "0"
 VERSION_PATCH = "5"
 VERSION_EXTRA = "default"
-VERSION = "{}.{}.{} ({})".format(
-    VERSION_MAJOR,
-    VERSION_MINOR,
-    VERSION_PATCH,
-    VERSION_EXTRA)
+VERSION = "{}.{}.{} ({})".format(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_EXTRA)
 
 # Paths
 ROOT_DIR = os.path.abspath("{}/../..".format(sys.argv[0]))
@@ -42,8 +33,7 @@ DEFAULT_MODULES_SEARCH_PATH = "/usr/share/gsh/modules"
 RESOURCES_ROOT_DIR = "{}/resources".format(ROOT_DIR)
 PARSER_TESTS_RESOURCES_DIR = "{}/tests/parser".format(RESOURCES_ROOT_DIR)
 LEXER_TESTS_RESOURCES_DIR = "{}/tests/lexer".format(RESOURCES_ROOT_DIR)
-FILE_WITH_HELLO_IN_IT = "{}/resources/tests/platform/file_with_word_hello.txt".format(
-    ROOT_DIR)
+FILE_WITH_HELLO_IN_IT = "{}/resources/tests/platform/file_with_word_hello.txt".format(ROOT_DIR)
 EXEC = "{}/tmp/taste".format(ROOT_DIR)
 
 
@@ -136,7 +126,9 @@ class CCWrapper(object):
             "-Werror",
             "-Wformat=2",
             "-Wno-missing-braces",
+            "-Wno-incompatible-pointer-types",
             "-Wno-missing-field-initializers",
+            "-Wno-implicit-fallthrough",
             "-Wswitch-default",
             "-Wcast-align",
             "-Wpointer-arith",
@@ -156,15 +148,12 @@ class CCWrapper(object):
             "-fno-omit-frame-pointer",
             "-ffloat-store",
             "-fno-common",
-            "-fstrict-aliasing"
+            "-fstrict-aliasing",
         ]
 
-        self.include_flags = ["-I{}".format(s) for s in [
-            ROOT_DIR,
-            SRC_ROOT_DIR
-        ]]
+        self.include_flags = ["-I{}".format(s) for s in [ROOT_DIR, SRC_ROOT_DIR]]
 
-        if (debug):
+        if debug:
             self.optimization_flags = ["-O0"]
             self.debug_flags = ["-g", "-ggdb"]
         else:
@@ -172,43 +161,51 @@ class CCWrapper(object):
             self.debug_flags = []
 
         def_flags_simple = ["-D_GNU_SOURCE"]
-        def_flags_vals = ["-DVERSION=\"{}\"".format(VERSION)]
+        def_flags_vals = ['-DVERSION="{}"'.format(VERSION)]
         def_flags_paths = [
-            "-DUSER_CONF_DIR=\"{}\"".format(USER_CONF_DIR),
-            "-DSYS_CONF_DIR=\"{}\"".format(SYS_CONF_DIR),
-            "-DDEFAULT_CONF_DIR=\"{}\"".format(DEFAULT_CONF_DIR),
-            "-DDEFAULT_MODULES_SEARCH_PATH=\"{}\"".format(
-                DEFAULT_MODULES_SEARCH_PATH),
-            "-DPARSER_TESTS_RESOURCES_DIR=\"{}\"".format(
-                PARSER_TESTS_RESOURCES_DIR),
-            "-DLEXER_TESTS_RESOURCES_DIR=\"{}\"".format(
-                LEXER_TESTS_RESOURCES_DIR),
-            "-DFILE_WITH_HELLO_IN_IT_PATH=\"{}\"".format(FILE_WITH_HELLO_IN_IT)
+            '-DUSER_CONF_DIR="{}"'.format(USER_CONF_DIR),
+            '-DSYS_CONF_DIR="{}"'.format(SYS_CONF_DIR),
+            '-DDEFAULT_CONF_DIR="{}"'.format(DEFAULT_CONF_DIR),
+            '-DDEFAULT_MODULES_SEARCH_PATH="{}"'.format(DEFAULT_MODULES_SEARCH_PATH),
+            '-DPARSER_TESTS_RESOURCES_DIR="{}"'.format(PARSER_TESTS_RESOURCES_DIR),
+            '-DLEXER_TESTS_RESOURCES_DIR="{}"'.format(LEXER_TESTS_RESOURCES_DIR),
+            '-DFILE_WITH_HELLO_IN_IT_PATH="{}"'.format(FILE_WITH_HELLO_IN_IT),
         ]
 
         def_flags_debug = [
             "-DDEBUG={}".format(int(self.debug)),
             "-DDEBUG_MEMORY={}".format(int(self.debug)),
-            "-DDEBUG_VERBOSE=1"
+            "-DDEBUG_VERBOSE=1",
         ]
 
         def_flags_test = [
             "-DTEST={}".format(int(self.test)),
             "-DDICT_TEST={}".format(int(self.test)),
-            "-DXVEC_STREAM_TEST={}".format(int(self.test))
+            "-DXVEC_STREAM_TEST={}".format(int(self.test)),
         ]
 
         def_flags_bench = [
             "-DBENCH={}".format(int(self.bench)),
-            "-DDICT_BENCH={}".format(int(self.bench))
+            "-DDICT_BENCH={}".format(int(self.bench)),
         ]
 
-        self.def_flags = (def_flags_simple + def_flags_vals + def_flags_paths +
-                          def_flags_debug + def_flags_test + def_flags_bench)
+        self.def_flags = (
+            def_flags_simple
+            + def_flags_vals
+            + def_flags_paths
+            + def_flags_debug
+            + def_flags_test
+            + def_flags_bench
+        )
 
         self.flags = (
-            self.std_flags + self.warn_flags + self.include_flags +
-            self.optimization_flags + self.debug_flags + self.def_flags)
+            self.std_flags
+            + self.warn_flags
+            + self.include_flags
+            + self.optimization_flags
+            + self.debug_flags
+            + self.def_flags
+        )
 
         return None
 
@@ -232,7 +229,8 @@ class Builder(object):
     """
     The last build time file path.
     """
-    LAST_BUILD_TIME_FILE = "{}/last_build_time.pickle".format(TMP_ROOT_DIR)
+    LAST_BUILD_TIME_FILE_DIR = TMP_ROOT_DIR
+    LAST_BUILD_TIME_FILE = "{}/last_build_time.pickle".format(LAST_BUILD_TIME_FILE_DIR)
 
     """
     The dependencies file path.
@@ -243,9 +241,7 @@ class Builder(object):
     """
     Static libraries to link
     """
-    STATIC_LIBS_TO_LINK = [
-        "{}/deps/sil/tmp/libsil.a".format(ROOT_DIR)
-    ]
+    STATIC_LIBS_TO_LINK = ["{}/deps/sil/tmp/libsil.a".format(ROOT_DIR)]
 
     def __init__(self, debug, test, bench):
         """
@@ -282,6 +278,7 @@ class Builder(object):
 
         # If there is no saved file with the last build time
         if not os.path.exists(self.LAST_BUILD_TIME_FILE):
+            Path(self.LAST_BUILD_TIME_FILE_DIR).mkdir(parents=True, exist_ok=True)
             # Create new file
             f = open(self.LAST_BUILD_TIME_FILE, "w")
             f.close()
@@ -357,8 +354,8 @@ class Builder(object):
         paths = []
         # For each character in output
         i = 0
-        while (i < len(output)):
-            if (output[i] == ":"):
+        while i < len(output):
+            if output[i] == ":":
                 # Skip the colon ':'
                 i += 1
                 while i < len(output):
@@ -390,22 +387,13 @@ class Builder(object):
         return path.replace(".c", ".o").replace("src", "tmp")
 
     def src_file_is_up_to_date(self, path):
-        """
-        Return true if the source file at given path
-        is need to be recompiled.
+        """ Return true if the source file at given path needs to be recompiled. """
 
-        Returns
-        -------
-        bool
-          True if given source file is up-to-date. False otherwise
-        """
-
-        # If there is no compiled '*.o' file at all,
-        # surely we need to recompile it
+        # If there is no compiled '*.o' file at all, # surely we need to recompile it
         if not os.path.exists(Builder.src_path_to_obj_path(path)):
             return False
 
-        # if path was changed after the last compilation: return false
+        # If path was changed after the last compilation: return false
         if self.path_was_changed_after_last_build(path):
             return False
 
@@ -420,7 +408,6 @@ class Builder(object):
                 return False
         return True
 
-    # TODO: Name this function better
     def collect_needed_files(self):
         """
         Collect all source/object/dep file paths
@@ -429,15 +416,24 @@ class Builder(object):
 
         srcs = []
         objs = []
+        is_linux = sys.platform == "linux" or sys.platform == "linux2"
+        is_macos = sys.platform == "darwin"
+        is_windows = sys.platform == "win32"
         for root, dirs, filenames in os.walk(SRC_ROOT_DIR):
             tmp_root = root.replace("/src", "/tmp")
+            # Eliminate platform paths
+            if "src/platform/linux" in root and not is_linux:
+                continue
+            if "src/platform/macos" in root and not is_macos:
+                continue
+            if "src/platform/windows" in root and not is_windows:
+                continue
             for f in filenames:
                 if f.endswith(".c"):
                     srcs.append("{}/{}".format(root, f))
                     if not os.path.exists(tmp_root):
                         os.makedirs(tmp_root)
-                    objs.append(
-                        "{}/{}".format(tmp_root, f.replace(".c", ".o")))
+                    objs.append("{}/{}".format(tmp_root, f.replace(".c", ".o")))
         return srcs, objs
 
     def src_file_gen_deps(self, path):
@@ -459,7 +455,7 @@ class Builder(object):
         output = subprocess.check_output(cmd)
         # Convert this string into the list
         paths = Builder.parse_dep_generator_output(str(output))
-        print("{}GEN {}\"{}\"{}".format(CLR_YELLOW, CLR_GRAY, path, CLR_RESET))
+        print('{}GEN {}"{}"{}'.format(CLR_YELLOW, CLR_GRAY, path, CLR_RESET))
         return paths
 
     def gen_deps(self):
@@ -501,14 +497,12 @@ class Builder(object):
             # If this file is not up to date
             if not self.src_file_is_up_to_date(srcs[i]):
                 is_anything_changed = True
-                # Print the beautiful message
-                print(
-                    "{}CC {}{}{}".format(CLR_YELLOW, CLR_GRAY, srcs[i], CLR_RESET))
+                print("{}CC {}{}{}".format(CLR_YELLOW, CLR_GRAY, srcs[i], CLR_RESET))
                 # Compile
                 cmd = [self.ccwrapper.get_cc()]
                 cmd += self.ccwrapper.get_flags()
                 cmd += ["-c", "-o", objs[i], srcs[i]]
-                if (subprocess.call(cmd) != 0):
+                if subprocess.call(cmd) != 0:
                     return False
         return is_anything_changed
 
@@ -533,7 +527,7 @@ class Builder(object):
         cmd += ["-o", EXEC]
         cmd += objs
         cmd += self.STATIC_LIBS_TO_LINK
-        if (subprocess.call(cmd) != 0):
+        if subprocess.call(cmd) != 0:
             return False
         return True
 
@@ -546,19 +540,22 @@ class Builder(object):
         # Save the build start time
         build_start_time = datetime.datetime.now()
 
+        def end_build():
+            build_end_time = datetime.datetime.now()
+            build_time = build_end_time - build_start_time
+            print("Build finished in {} ms".format(build_time.microseconds))
+            self.last_build_time = build_end_time
+            self.save_last_build_time(build_end_time)
+
         # Compile
         if not self.compile():
+            end_build()
             return
 
         # Link
         if not self.link():
+            end_build()
             return
-
-        build_end_time = datetime.datetime.now()
-        build_time = build_end_time - build_start_time
-        print("Build finished in {} ms".format(build_time.microseconds))
-        self.last_build_time = build_end_time
-        self.save_last_build_time(build_end_time)
 
 
 def exec_mk(name):
@@ -595,9 +592,9 @@ def uninstall():
 
 def prepare_env():
     """Prepare the environment."""
-    os.environ["CLR_YELLOW"] = "\"{}\"".format(CLR_YELLOW)
-    os.environ["CLR_GRAY"] = "\"{}\"".format(CLR_GRAY)
-    os.environ["CLR_RESET"] = "\"{}\"".format(CLR_RESET)
+    os.environ["CLR_YELLOW"] = '"{}"'.format(CLR_YELLOW)
+    os.environ["CLR_GRAY"] = '"{}"'.format(CLR_GRAY)
+    os.environ["CLR_RESET"] = '"{}"'.format(CLR_RESET)
     os.environ["ROOT_DIR"] = ROOT_DIR
     os.environ["SRC_ROOT_DIR"] = SRC_ROOT_DIR
     os.environ["TMP_ROOT_DIR"] = TMP_ROOT_DIR
@@ -609,8 +606,7 @@ def prepare_env():
 def cppcheck():
     """Run the Cppcheck on the source tree."""
     clear_screen()
-    subprocess.call(
-        ["cppcheck", "-q", "--enable=all", "--inconclusive", SRC_ROOT_DIR])
+    subprocess.call(["cppcheck", "-q", "--enable=all", "--inconclusive", SRC_ROOT_DIR])
     return None
 
 
@@ -628,15 +624,18 @@ def memcheck(test):
     if test:
         exec_cmd += " -t"
     clear_screen()
-    subprocess.call([
-        "valgrind",
-        "-v",
-        "--leak-check=full",
-        "--show-leak-kinds=all",
-        "--track-origins=yes",
-        "--leak-check=yes",
-        "--num-callers=64",
-        exec_cmd])
+    subprocess.call(
+        [
+            "valgrind",
+            "-v",
+            "--leak-check=full",
+            "--show-leak-kinds=all",
+            "--track-origins=yes",
+            "--leak-check=yes",
+            "--num-callers=64",
+            exec_cmd,
+        ]
+    )
     return None
 
 
@@ -652,54 +651,50 @@ def main():
     parser = argparse.ArgumentParser(description="Manage GSh")
     parser.add_argument("-c", "--clean", help="clean", action="store_true")
     parser.add_argument("-i", "--install", help="install", action="store_true")
-    parser.add_argument(
-        "-u", "--uninstall", help="uninstall", action="store_true")
+    parser.add_argument("-u", "--uninstall", help="uninstall", action="store_true")
     parser.add_argument("-b", "--build", help="build", action="store_true")
+    parser.add_argument("-g", "--gen_deps", help="generate dependencies", action="store_true")
+    parser.add_argument("-d", "--debug", help="build in debug mode", action="store_true")
+    parser.add_argument("-t", "--test", help="build with tests", action="store_true")
+    parser.add_argument("-p", "--bench", help="build with benchmarks", action="store_true")
     parser.add_argument(
-        "-g", "--gen_deps", help="generate dependencies", action="store_true")
-    parser.add_argument(
-        "-d", "--debug", help="build in debug mode", action="store_true")
-    parser.add_argument(
-        "-t", "--test", help="build with tests", action="store_true")
-    parser.add_argument(
-        "-p", "--bench", help="build with benchmarks", action="store_true")
-    parser.add_argument(
-        "-k", "--cppcheck", help="run cppcheck on the source code", action="store_true")
-    parser.add_argument(
-        "-m", "--memcheck", help="run memcheck", action="store_true")
+        "-k", "--cppcheck", help="run cppcheck on the source code", action="store_true"
+    )
+    parser.add_argument("-m", "--memcheck", help="run memcheck", action="store_true")
     args = parser.parse_args()
 
     prepare_env()
 
-    if (args.build):
+    if args.build:
         builder = Builder(args.debug, args.test, args.bench)
         builder.build()
 
-    if (args.gen_deps):
+    if args.gen_deps:
         build = Builder(args.debug, args.test, args.bench)
         build.gen_deps()
 
-    if (args.clean):
+    if args.clean:
         clean()
         return None
 
-    if (args.install):
+    if args.install:
         install()
         return None
 
-    if (args.uninstall):
+    if args.uninstall:
         uninstall()
         return None
 
-    if (args.cppcheck):
+    if args.cppcheck:
         cppcheck()
         return None
 
-    if (args.memcheck):
+    if args.memcheck:
         memcheck(args.test)
         return None
 
     return None
+
 
 if __name__ == "__main__":
     main()

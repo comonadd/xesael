@@ -10,7 +10,8 @@
 #include "lib/types.h"
 
 #include "core/compiler/ast/ast_node.h"
+#include "core/compiler/translator/translator.h"
 
-bool translate_while_node(struct ASTNode* node);
+bool translate_while_node(struct Translator* T, struct ASTNode* node);
 
 #endif /* TRANSLATE_WHILE_LOOP_H */

@@ -6,10 +6,6 @@
 
 #include "core/compiler/compile.h"
 
-#include "err.h"
-
-#include "platform/xfile.h"
-
 #include "core/compiler/ast/ast.h"
 #include "core/compiler/ast/print.h"
 #include "core/compiler/compiler.h"
@@ -18,6 +14,8 @@
 #include "core/compiler/token/token.h"
 #include "core/compiler/translator/translate/translate.h"
 #include "core/vm/bytecode/bytecode.h"
+#include "err.h"
+#include "platform/xfile.h"
 
 /********/
 /* Main */
@@ -52,8 +50,8 @@ struct ByteCode* compile(char const* const src_name, char const* const text)
   ast_print(ast);
 #endif /* DEBUG */
 
-  /* Translate into the bytecode */
-  struct ByteCode* bc = translate(ast);
+  struct ByteCode* bc;
+  translate(&bc, ast);
   if (!bc) {
     xvec_delete(toks);
     ast_delete(ast);

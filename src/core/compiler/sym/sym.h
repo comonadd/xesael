@@ -32,15 +32,12 @@ struct Symbol {
 /* Methods */
 /***********/
 
-struct Symbol* sym_new(const enum SymbolType type, char const* name);
+struct Symbol* sym_new(const enum SymbolType type, char* name);
 
-struct Symbol* sym_var_new(char const* name,
-                           const ImmediateID name_immediate_id);
+struct Symbol* sym_var_new(char* name, const ImmediateID name_immediate_id);
 
-struct Symbol* sym_const_new(char const* name,
-                             const ImmediateID name_immediate_id);
+struct Symbol* sym_const_new(char* name, const ImmediateID name_immediate_id);
 
-struct Symbol* sym_func_new(char const* name,
-                            const ImmediateID func_immediate_id);
+struct Symbol* sym_func_new(char* name, const ImmediateID func_immediate_id);
 
 #endif /* SYM_H */

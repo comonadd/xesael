@@ -6,16 +6,14 @@
 
 #include "core/compiler/translator/translator.h"
 
-#include "err.h"
-
-#include "lib/types.h"
-
 #include "core/compiler/ast/ast.h"
 #include "core/compiler/sym/sym.h"
 #include "core/compiler/sym/symtable.h"
 #include "core/compiler/translator/translator.h"
 #include "core/vm/immediate/immediate.h"
 #include "core/vm/immediate/immediate_list.h"
+#include "err.h"
+#include "lib/types.h"
 
 /***********/
 /* Methods */
@@ -31,8 +29,8 @@ bool translator_init(struct Translator* T)
 
   immediate_list_init(&T->il);
   T->curr_rid = 0;
-  T->bc       = bytecode_new();
-  if (!T->bc) return false;
+  T->buf      = bytecode_new();
+  if (!T->buf) return false;
 
   /* Succeed */
   return true;
@@ -62,12 +60,12 @@ NoRet translator_delete(struct Translator* T)
 
 InstructionPosition translator_get_ip(struct Translator* T)
 {
-  return T->bc->instructions_count;
+  return T->buf->instructions_count;
 }
 
 InstructionPosition translator_reserve_ip(struct Translator* T)
 {
-  return T->bc->instructions_count++;
+  return T->buf->instructions_count++;
 }
 
 RegisterID translator_get_free_reg(struct Translator* T)
@@ -80,7 +78,7 @@ NoRet translator_free_regs(struct Translator* T)
   T->curr_rid = 0;
 }
 
-bool translator_st_insert(struct Translator* T, struct Symbol const* sym)
+bool translator_st_insert(struct Translator* T, struct Symbol* sym)
 {
   return st_insert(T->st, sym);
 }
@@ -92,11 +90,11 @@ struct Symbol* translator_st_lookup(struct Translator* T, char const* name)
 
 NoRet translator_append_instr(struct Translator* T, const Instruction i)
 {
-  bytecode_append_instr(T->bc, i);
+  bytecode_append_instr(T->buf, i);
 }
 
 struct Immediate* translator_immediate_insert(struct Translator* T,
-                                              char const* name,
+                                              char* name,
                                               struct Object* obj)
 {
   return immediate_list_insert(&T->il, name, obj);
@@ -112,7 +110,7 @@ NoRet translator_insert_instr(struct Translator* T,
                               const InstructionPosition pos,
                               const Instruction i)
 {
-  bytecode_insert_instr(T->bc, pos, i);
+  bytecode_insert_instr(T->buf, pos, i);
 }
 
 NoRet translator_enter_scope(struct Translator* T)

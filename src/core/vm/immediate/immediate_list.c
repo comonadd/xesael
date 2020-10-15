@@ -6,14 +6,13 @@
 
 #include "core/vm/immediate/immediate_list.h"
 
+#include "core/vm/immediate/immediate.h"
 #include "lib/bst.h"
 #include "lib/macros.h"
 #include "lib/str.h"
 #include "lib/types.h"
 #include "lib/util.h"
 #include "lib/xmalloc.h"
-
-#include "core/vm/immediate/immediate.h"
 
 NoRet immediate_list_init(ImmediateList* list)
 {
@@ -26,7 +25,7 @@ NoRet immediate_list_deinit(ImmediateList* list)
 }
 
 struct Immediate* immediate_list_insert(ImmediateList* list,
-                                        char const* name,
+                                        char* name,
                                         struct Object* obj)
 {
   struct Immediate* I = bst_find(CAST(list, struct BST*), name);

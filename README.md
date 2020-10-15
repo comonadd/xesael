@@ -2,13 +2,13 @@ The Xesael Project
 ==================
 
 ## Description
-The Xesael project is an educational project that consists of a hand-written
-lexer, parser, byte-code generator, and the virtual machine.
+I wrote this project in order to better understand how programming languages work.
+This is an interpreted language, consiting of a lexer, parser, byte-code generator (compiler),
+and a virtual machine that executes the byte code.
+
+Only UNIX systems are supported.
 
 ## Build
-Project has it's own build system written. It consists of a [small Python 3 script](scripts/manage.py).
-Only Linux build is supported. Windows and MacOS will be added soon.
-
-So, in order to build the project, you should:
- * Go to the project root directory
- * Execute in command-line shell `./scripts/build.sh`
+In order to build the project you have to:
+1). Genererate source file dependencies using `scripts/build_deps.sh`.
+2). Execute `scripts/build.sh` in order to actually compile the project.

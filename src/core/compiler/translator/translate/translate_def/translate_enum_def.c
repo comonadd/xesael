@@ -11,7 +11,7 @@
 
 #include "core/compiler/ast/ast_node.h"
 
-bool translate_enum_def_node(struct ASTNode* node)
+bool translate_enum_def_node(struct Translator* T, struct ASTNode* node)
 {
   UNUSED(node);
   return false;

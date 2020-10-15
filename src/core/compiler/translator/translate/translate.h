@@ -7,14 +7,13 @@
 #ifndef TRANSLATE_H
 #define TRANSLATE_H
 
-#include "lib/types.h"
-
 #include "core/compiler/ast/ast.h"
 #include "core/compiler/ast/ast_node.h"
 #include "core/compiler/translator/translator.h"
+#include "lib/types.h"
 
 bool translate_node(struct Translator* T, struct ASTNode* node);
-struct ByteCode* translate_nodes(struct XVector* nodes);
-struct ByteCode* translate(struct AST* ast);
+bool translate_nodes(struct Translator* T, struct XVector* nodes);
+bool translate(struct ByteCode** output, struct AST* ast);
 
 #endif /* TRANSLATE_H */

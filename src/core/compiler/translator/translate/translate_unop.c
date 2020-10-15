@@ -11,14 +11,14 @@
 #include "core/compiler/translator/translator.h"
 #include "lib/types.h"
 
-bool translate_unop_node(struct ASTNode* node)
+bool translate_unop_node(struct Translator* T, struct ASTNode* node)
 {
   /* Retreive the register ID in which result will be stored */
-  node->rid = translator_get_free_reg();
+  node->rid = translator_get_free_reg(T);
 
   /* Retreive and compile the operand */
   struct ASTNode* op = node->data.unop.op;
-  if (!translate_node(op)) return false;
+  if (!translate_node(T, op)) return false;
 
   /* Whichever operator we have, create a new instruction */
   enum InstructionOpCode code;
@@ -26,7 +26,7 @@ bool translate_unop_node(struct ASTNode* node)
 
   /* Emit a new instruction */
   const Instruction instr = instr_unop_new(code, op->rid, node->rid);
-  translator_append_instr(instr);
+  translator_append_instr(T, instr);
 
   /* Succeed */
   return true;

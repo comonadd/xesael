@@ -16,6 +16,6 @@
  * @args - Command-line arguments
  * @return integer POSIX exit code
  */
-int taste_main(struct Arguments const* args);
+int xesael_main(struct Arguments const* args);
 
 #endif /* XESAEL_XESAEL_INC */

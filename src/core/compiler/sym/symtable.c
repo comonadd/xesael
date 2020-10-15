@@ -36,7 +36,7 @@ NoRet st_delete(struct SymbolTable* st)
   xfree(st);
 }
 
-bool st_insert(struct SymbolTable* st, struct Symbol const* sym)
+bool st_insert(struct SymbolTable* st, struct Symbol* sym)
 {
   sym->id = dict_get_key_index(&st->symbols, sym->name);
   return dict_insert_raw(&st->symbols, sym->name, sym, sym->id);

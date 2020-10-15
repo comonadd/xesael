@@ -5,11 +5,11 @@
 
 #include "core/compiler/translator/translate/translate_assign.h"
 
-#include "lib/types.h"
-
 #include "core/compiler/ast/ast_node.h"
 #include "core/compiler/compiler.h"
 #include "core/compiler/translator/translator.h"
+#include "core/compiler/translator/translate/translate.h"
+#include "lib/types.h"
 
 bool translate_assign_node(struct Translator* T, struct ASTNode* node)
 {
@@ -60,7 +60,7 @@ bool translate_assign_node(struct Translator* T, struct ASTNode* node)
   /* Emit the VARSET instruction */
   Instruction instr =
     instr_varset_new(sym->data.var_name_immediate_id, rop->rid);
-  translator_append_instr(instr);
+  translator_append_instr(T, instr);
 
   /* Succeed */
   return true;
